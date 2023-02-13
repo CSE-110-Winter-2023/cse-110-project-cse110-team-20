@@ -7,6 +7,18 @@
     tools:context=".MainActivity">
 
     <Button
+
+        android:id="@+id/display_compass"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="100dp"
+        android:layout_marginTop="400dp"
+        android:layout_marginEnd="100dp"
+        android:layout_marginBottom="250dp"
+        android:text="Display Compass"
+        android:onClick="OnDisplayCompassClicked" />
+
+    <Button
         android:id="@+id/add_data"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

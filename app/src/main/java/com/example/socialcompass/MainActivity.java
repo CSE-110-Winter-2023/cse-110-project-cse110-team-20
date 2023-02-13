@@ -1,7 +1,7 @@
 package com.example.socialcompass;
 
 import androidx.appcompat.app.AppCompatActivity;
-
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -21,6 +21,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
     }
 
+    public void OnDisplayCompassClicked(View view) {
+        Intent intent = new Intent(this, Mapscreen.class);
+        startActivity(intent);
+    }
     public void AddDataClicked(View view) {
         if(preferences.getAll().size()>3){//make sure only 3 values are stored
             //show an alert saying 3 datapoints have already been added
