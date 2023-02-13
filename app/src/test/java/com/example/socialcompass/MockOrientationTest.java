@@ -8,10 +8,10 @@ import static org.junit.Assert.*;
 
 @RunWith(RobolectricTestRunner.class)
 public class MockOrientationTest {
-    private static double delta = 0.001f;
+    private static float delta = 0.001f;
     @Test
     public void testNewOrientation() {
-        double orientation1 = 1.0;
+        float orientation1 = 1.0f;
         MockOrientation mo = new MockOrientation(orientation1);
         assertEquals(orientation1, mo.getOrientation(), delta);
     }
@@ -24,7 +24,7 @@ public class MockOrientationTest {
 
     @Test
     public void testSetOrientation() {
-        double orientation2 = 1.5;
+        float orientation2 = 1.5f;
         MockOrientation mo = new MockOrientation();
         mo.setOrientation(orientation2);
         assertEquals(orientation2, mo.getOrientation(), delta);
