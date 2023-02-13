@@ -16,13 +16,13 @@ public class Compass {
         currentPoint = current;
     }
 
-    Map<String, Double> getDegreesToPoints() {
+    Map<String, Float> getDegreesToPoints() {
         Converter converter = new Converter();
-        double resultParent = converter.pointToDegreeFromNorth(currentPoint, parentPoint);
-        double resultFriend = converter.pointToDegreeFromNorth(currentPoint, friendPoint);
-        double resultHome = converter.pointToDegreeFromNorth(currentPoint, homePoint);
+        float resultParent = converter.pointToDegreeFromNorth(currentPoint, parentPoint);
+        float resultFriend = converter.pointToDegreeFromNorth(currentPoint, friendPoint);
+        float resultHome = converter.pointToDegreeFromNorth(currentPoint, homePoint);
 
-        Map<String, Double> map = new HashMap<String, Double>();
+        Map<String, Float> map = new HashMap<String, Float>();
         map.put("parent",resultParent);
         map.put("friend",resultFriend);
         map.put("home",resultHome);

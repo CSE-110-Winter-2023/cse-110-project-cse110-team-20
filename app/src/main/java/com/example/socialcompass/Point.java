@@ -1,8 +1,8 @@
 package com.example.socialcompass;
 
 public class Point {
-    private double latitude;
-    private double longitude;
+    private float latitude;
+    private float longitude;
     private String label;
 
     public Point(){
@@ -11,13 +11,13 @@ public class Point {
         label = "";
     }
 
-    public Point(double latv, double longv){
+    public Point(float latv, float longv){
         this.latitude = latv;
         this.longitude = longv;
         this.label = "";
     }
 
-    public Point(double latv, double longv, String labelIn){
+    public Point(float latv, float longv, String labelIn){
         this.latitude = latv;
         this.longitude = longv;
         this.label = labelIn;
@@ -28,11 +28,11 @@ public class Point {
             throw new RuntimeException("something is wrong with the input!");
         }
         String[] arrOfStr = textinput.split(",", 2);
-        this.latitude = Double.parseDouble(arrOfStr[0]);
-        this.longitude = Double.parseDouble(arrOfStr[1]);
+        this.latitude = Float.parseFloat(arrOfStr[0]);
+        this.longitude = Float.parseFloat(arrOfStr[1]);
     }
 
-    public void setLocation(double latv, double longv) {
+    public void setLocation(float latv, float longv) {
         this.latitude = latv;
         this.longitude = longv;
     }
@@ -41,11 +41,11 @@ public class Point {
         this.label = newLabel;
     }
 
-    public double getLatitude() {
+    public float getLatitude() {
         return this.latitude;
     }
 
-    public double getLongitude() {
+    public float getLongitude() {
         return this.longitude;
     }
 

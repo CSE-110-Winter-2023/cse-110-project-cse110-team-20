@@ -10,8 +10,8 @@ public class Display {
         this.orientation = orientation;
     }
 
-    public Map<String, Double> modifyDegreesToLocations(Map<String, Double> compassResult) {
-        Map<String, Double> result = new HashMap<String, Double>();
+    public Map<String, Float> modifyDegreesToLocations(Map<String, Float> compassResult) {
+        Map<String, Float> result = new HashMap<String, Float>();
         result.put("parent", compassResult.get("parent") + orientation.getOrientation());
         result.put("friend", compassResult.get("friend") + orientation.getOrientation());
         result.put("home", compassResult.get("home") + orientation.getOrientation());
