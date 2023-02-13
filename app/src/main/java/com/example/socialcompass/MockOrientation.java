@@ -3,16 +3,16 @@ package com.example.socialcompass;
 public class MockOrientation implements IOrientation {
     private float orientation;
 
-    MockOrientation(float f) {
-        setOrientation(f);
+    MockOrientation(float d) {
+        setOrientation(d);
     }
 
     MockOrientation() {
         setOrientation(0.0f);
     }
 
-    public void setOrientation(float f) {
-        this.orientation = f;
+    public void setOrientation(float d) {
+        this.orientation = d;
     }
 
     public float getOrientation() {

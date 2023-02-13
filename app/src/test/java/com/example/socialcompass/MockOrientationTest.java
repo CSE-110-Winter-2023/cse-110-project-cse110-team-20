@@ -19,7 +19,7 @@ public class MockOrientationTest {
     @Test
     public void testDefaultOrientation() {
         MockOrientation mo = new MockOrientation();
-        assertEquals(0.0f, mo.getOrientation(), delta);
+        assertEquals(0.0, mo.getOrientation(), delta);
     }
 
     @Test
