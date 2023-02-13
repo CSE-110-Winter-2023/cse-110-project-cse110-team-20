@@ -17,10 +17,11 @@ public class Converter {
         return (Math.toDegrees(Math.atan2(y, x)) + 360) % 360;
     }
 
-    protected double locationToDegreeFromNorth(Location startLocation, Location endLocation) {
-        NorthLocation NP = new NorthLocation();
-        return (coordinateToDegree(startLocation.getLocation().first, startLocation.getLocation().second, endLocation.getLocation().first, endLocation.getLocation().second)
-                - coordinateToDegree(startLocation.getLocation().first, startLocation.getLocation().second, NP.getLocation().first, NP.getLocation().second) + 360) % 360;
+    protected double pointToDegreeFromNorth(Point startPoint, Point endPoint) {
+        double longitude_north = 85;
+        double latitude_north = -135;
+        return (coordinateToDegree(startPoint.getLatitude(), startPoint.getLongitude(), endPoint.getLatitude(), endPoint.getLongitude())
+                - coordinateToDegree(startPoint.getLatitude(), startPoint.getLongitude(), longitude_north, latitude_north) + 360) % 360;
     }
 
 }
