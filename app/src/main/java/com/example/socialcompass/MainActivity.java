@@ -3,6 +3,9 @@ package com.example.socialcompass;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.util.Log;
+
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
