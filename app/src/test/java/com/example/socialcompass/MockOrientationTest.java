@@ -13,13 +13,13 @@ public class MockOrientationTest {
     public void testNewOrientation() {
         float orientation1 = 1.0f;
         MockOrientation mo = new MockOrientation(orientation1);
-        assertEquals(orientation1, mo.getOrientation(), delta);
+        assertEquals(orientation1, mo.getOrientationVal(), delta);
     }
 
     @Test
     public void testDefaultOrientation() {
         MockOrientation mo = new MockOrientation();
-        assertEquals(0.0f, mo.getOrientation(), delta);
+        assertEquals(0.0f, mo.getOrientationVal(), delta);
     }
 
     @Test
@@ -27,6 +27,6 @@ public class MockOrientationTest {
         float orientation2 = 1.5f;
         MockOrientation mo = new MockOrientation();
         mo.setOrientation(orientation2);
-        assertEquals(orientation2, mo.getOrientation(), delta);
+        assertEquals(orientation2, mo.getOrientationVal(), delta);
     }
 }

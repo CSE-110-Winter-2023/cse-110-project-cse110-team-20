@@ -15,7 +15,7 @@ public class MockOrientation implements IOrientation {
         this.orientation = f;
     }
 
-    public float getOrientation() {
+    public float getOrientationVal() {
         return orientation;
     }
 }
