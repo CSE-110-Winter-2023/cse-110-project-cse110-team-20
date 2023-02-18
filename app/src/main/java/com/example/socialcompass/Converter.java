@@ -18,10 +18,10 @@ public class Converter {
     }
 
     protected float pointToDegreeFromNorth(Point startPoint, Point endPoint) {
-        float longitude_north = 85;
-        float latitude_north = -135;
+        float latitude_north = 90;
+        float longitude_north = -135;
         return (coordinateToDegree(startPoint.getLatitude(), startPoint.getLongitude(), endPoint.getLatitude(), endPoint.getLongitude())
-                - coordinateToDegree(startPoint.getLatitude(), startPoint.getLongitude(), longitude_north, latitude_north) + 360) % 360;
+                - coordinateToDegree(startPoint.getLatitude(), startPoint.getLongitude(), latitude_north, longitude_north) + 360) % 360;
     }
 
 }

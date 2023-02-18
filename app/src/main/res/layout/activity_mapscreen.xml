@@ -12,51 +12,138 @@
         android:layout_height="400dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.454"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.145">
 
         <ImageView
-            android:id="@+id/compass_face"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginEnd="20dp"
-            android:layout_marginBottom="20dp"
+            android:id="@+id/compass_bg"
+            android:layout_width="270dp"
+            android:layout_height="282dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/compass_background" />
+            app:srcCompat="@drawable/compass" />
 
         <ImageView
-            android:id="@+id/compass_edge"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0"
-            app:srcCompat="@drawable/circle_outline" />
+            android:id="@+id/north_point"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            app:layout_constraintCircle="@+id/compass_bg"
+            app:layout_constraintCircleAngle="270"
+            app:layout_constraintCircleRadius="100dp"
+            app:srcCompat="@drawable/north_point"
+            tools:ignore="MissingConstraints"
+            tools:layout_editor_absoluteX="380dp"
+            tools:layout_editor_absoluteY="380dp" />
 
         <ImageView
-            android:id="@+id/current_direction_arrow"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginStart="70dp"
-            android:layout_marginTop="50dp"
-            android:layout_marginEnd="60dp"
-            android:layout_marginBottom="250dp"
-            android:rotation="90"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.131"
-            app:srcCompat="@drawable/red_arrow" />
+            android:id="@+id/green_point"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            app:layout_constraintCircle="@+id/compass_bg"
+            app:layout_constraintCircleAngle="180"
+            app:layout_constraintCircleRadius="170dp"
+            app:srcCompat="@drawable/green_point"
+            tools:ignore="MissingConstraints"
+            tools:layout_editor_absoluteX="380dp"
+            tools:layout_editor_absoluteY="380dp" />
+
+        <ImageView
+            android:id="@+id/yellow_point"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            app:layout_constraintCircle="@+id/compass_bg"
+            app:layout_constraintCircleAngle="180"
+            app:layout_constraintCircleRadius="160dp"
+            app:srcCompat="@drawable/yellow_point"
+            tools:ignore="MissingConstraints"
+            tools:layout_editor_absoluteX="380dp"
+            tools:layout_editor_absoluteY="380dp" />
+
+        <ImageView
+            android:id="@+id/red_point"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            app:layout_constraintCircle="@+id/compass_bg"
+            app:layout_constraintCircleAngle="180"
+            app:layout_constraintCircleRadius="150dp"
+            app:srcCompat="@drawable/red_point"
+            tools:ignore="MissingConstraints"
+            tools:layout_editor_absoluteX="380dp"
+            tools:layout_editor_absoluteY="380dp" />
+
+        <ImageView
+            android:id="@+id/center_point"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            app:layout_constraintCircle="@+id/compass_bg"
+            app:layout_constraintCircleRadius="0dp"
+            app:srcCompat="@drawable/black_point"
+            tools:ignore="MissingConstraints"
+            tools:layout_editor_absoluteX="380dp"
+            tools:layout_editor_absoluteY="380dp" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <LinearLayout
+        android:layout_width="400dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@+id/Compass"
+        android:layout_marginTop="32dp"
+        tools:layout_editor_absoluteX="5dp"
+        tools:ignore="MissingConstraints">
+
+        <ImageView
+            android:id="@+id/red_point_legend"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            app:srcCompat="@drawable/red_point"
+            tools:layout_editor_absoluteX="380dp"
+            tools:layout_editor_absoluteY="380dp" />
+
+        <TextView
+            android:id="@+id/red_label_legend"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="32dp"
+            android:textAlignment="center"
+            android:text="Location 1" />
+
+        <ImageView
+            android:id="@+id/yellow_point_legend"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            app:srcCompat="@drawable/yellow_point"
+            tools:layout_editor_absoluteX="380dp"
+            tools:layout_editor_absoluteY="380dp" />
+
+        <TextView
+            android:id="@+id/yellow_label_legend"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:layout_marginBottom="32dp"
+            android:text="Location 2" />
+
+        <ImageView
+            android:id="@+id/green_point_legend"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            app:srcCompat="@drawable/green_point"
+            tools:layout_editor_absoluteX="380dp"
+            tools:layout_editor_absoluteY="380dp" />
+
+        <TextView
+            android:id="@+id/green_label_legend"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:layout_marginBottom="32dp"
+            android:text="Location 3" />
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

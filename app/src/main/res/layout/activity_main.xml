@@ -7,18 +7,6 @@
     tools:context=".MainActivity">
 
     <Button
-
-        android:id="@+id/display_compass"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="100dp"
-        android:layout_marginTop="400dp"
-        android:layout_marginEnd="100dp"
-        android:layout_marginBottom="250dp"
-        android:text="Display Compass"
-        android:onClick="OnDisplayCompassClicked" />
-
-    <Button
         android:id="@+id/add_data"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -41,7 +29,7 @@
         android:layout_marginEnd="50dp"
         android:layout_marginBottom="40dp"
         android:inputType="textPersonName"
-        android:text="Input lattitude and longitude"
+        android:hint="Input lattitude and longitude"
         app:layout_constraintBottom_toTopOf="@+id/add_data"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias=".5"
@@ -55,7 +43,7 @@
         android:layout_marginEnd="50dp"
         android:layout_marginBottom="40dp"
         android:inputType="textPersonName"
-        android:text="Input datapoint name"
+        android:hint="Input datapoint name"
         app:layout_constraintBottom_toTopOf="@id/waypoint_coord"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

@@ -1,16 +1,19 @@
 package com.example.socialcompass;
 
+import android.util.Log;
+
 import java.util.HashMap;
 import java.util.Map;
 
 public class Display {
     private IOrientation orientation;
     private Compass compass;
-    public Display(IOrientation orientation) {
+    public Display(IOrientation orientation, Compass compass) {
         this.orientation = orientation;
+        this.compass = compass;
     }
     public Map<String, Float> modifyDegreesToLocations() {
-        Map<String, Float> compassResult = compass.getDegreesToPoints();
+        Map<String, Float> compassResult = this.compass.getDegreesToPoints();
         Map<String, Float> result = new HashMap<String, Float>();
         result.put("parent", compassResult.get("parent") + orientation.getOrientation());
         result.put("friend", compassResult.get("friend") + orientation.getOrientation());

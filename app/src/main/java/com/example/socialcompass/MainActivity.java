@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import java.util.Collection;
@@ -14,34 +15,62 @@ import java.util.Set;
 
 public class MainActivity extends AppCompatActivity {
     //make this preferences public so compass can access it?
-    public SharedPreferences preferences = getPreferences(MODE_PRIVATE);
+
+    public SharedPreferences preferences;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        preferences = getPreferences(MODE_PRIVATE);
+        int numPoints = preferences.getAll().size();
+        if (numPoints >= 2) { //make sure only 3 values are stored
+            String[][] ans = returnPreferences();
+            Intent intent = new Intent(this, Mapscreen.class);
+            intent.putExtra("point1", ans[0]);
+            intent.putExtra("point2", ans[1]);
+            intent.putExtra("point3", ans[2]);
+            startActivity(intent);
+        }
+
+        try {
+            String[][] ans = returnPreferences();
+            for (int i = 0; i < 3; i++) {
+                Log.d("store", ans[i][0]);
+                Log.d("store", ans[i][1]);
+            }
+        } catch (Exception e) {
+            Log.d("error", e.toString());
+        }
     }
 
-    public void OnDisplayCompassClicked(View view) {
-        Intent intent = new Intent(this, Mapscreen.class);
-        startActivity(intent);
-    }
     public void AddDataClicked(View view) {
-        if(preferences.getAll().size()>3){//make sure only 3 values are stored
-            //show an alert saying 3 datapoints have already been added
-            Utilities.showAlert(this, "3 datapoints have already been added");
+        int numPoints = preferences.getAll().size();
+        Log.d("points", ""+numPoints);
+        TextView wpname = findViewById(R.id.waypoint_name);
+        TextView wpstatus = findViewById(R.id.waypoint_coord);
+        if(wpname.getText().toString().equals("") &&
+                wpstatus.getText().toString().equals("")){
+            //if user just tried to input text without changing inputs
+            Utilities.showAlert(this, "Invalid Input");
+            return;
+        }
+        saveProfile();
+
+        if(numPoints >= 2){//make sure only 3 values are stored
+            String[][] ans = returnPreferences();
+            Intent intent = new Intent(this, Mapscreen.class);
+            intent.putExtra("point1", ans[0]);
+            intent.putExtra("point2", ans[1]);
+            intent.putExtra("point3", ans[2]);
+            startActivity(intent);
         }
         else{
-            TextView wpname = findViewById(R.id.waypoint_name);
-            TextView wpstatus = findViewById(R.id.waypoint_coord);
-            if(wpname.getText().toString().equals("Input datapoint name") &&
-                    wpstatus.getText().toString().equals("Input lattitude and longitude")){
-                //if user just tried to input text without changing inputs
-                Utilities.showAlert(this, "Please change lattitude and longitude");
-                return;
-            }
-            saveProfile();
-            wpname.setText("Input datapoint name");
-            wpname.setText("Input lattitude and longitude");
+            wpname.setText("");
+            wpstatus.setText("");
+            wpname.setHint("Input datapoint name");
+            wpstatus.setHint("Input lattitude and longitude");
         }
         return;
     }

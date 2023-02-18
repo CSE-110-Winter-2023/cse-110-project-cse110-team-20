@@ -23,7 +23,5 @@ public class CompassTest {
 
         assertTrue(result.get("friend") - result.get("parent") < 90 + THRESHOLD && result.get("friend") - result.get("parent") > 90 - THRESHOLD);
         assertTrue(result.get("home") - result.get("friend") < 90 + THRESHOLD && result.get("home") - result.get("friend") > 90 - THRESHOLD);
-
-        assertTrue(true);
     }
 }
