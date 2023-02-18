@@ -18,4 +18,4 @@
 - [ ] T4-4: In the continuous check, also keep on updating and changing values on the compass screen to match the changing location
 - [ ] T4-5: Testing 
 
-To be continued →
+**To be continued →**
