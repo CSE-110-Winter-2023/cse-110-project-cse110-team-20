@@ -1,6 +1,6 @@
 # CSE 110 team 20
 
-## Next Due: **MS 1 Delivery** Feb 19 11:55pm
+## [Next Due: **MS 1 Delivery** Feb 19 11:55pm](https://canvas.ucsd.edu/courses/42716/assignments/567146)
 ### [US3: Persistence of house locations](https://github.com/CSE-110-Winter-2023/cse-110-project-cse110-team-20/milestone/1)
 > **_NOTE:_** : As a user I want the app to still work even after it is killed and restarted so that I don't have to reenter the information again (just to see in which direction my friends and parents are)
 **To-do list:**
