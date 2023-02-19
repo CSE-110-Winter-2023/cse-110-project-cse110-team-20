@@ -22,6 +22,7 @@ public class OrientationService implements SensorEventListener, IOrientation {
 
     /**
      * Constructor for OrientationService
+     * Do not use; instead get an OrientationService object from singleton()
      *
      * @param activity Context needed to initiate SensorManager
      */
@@ -31,20 +32,43 @@ public class OrientationService implements SensorEventListener, IOrientation {
         this.registerSensorListeners();
     }
 
-    private void registerSensorListeners() {
-        sensorManager.registerListener((SensorEventListener) this,
-                sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
-                SensorManager.SENSOR_DELAY_NORMAL);
-        sensorManager.registerListener((SensorEventListener) this,
-                sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD),
-                SensorManager.SENSOR_DELAY_NORMAL);
-    }
-
+    /**
+     * Get the OrientationService singleton object
+     *
+     * @param activity Context needed to initiate SensorManager
+     * @return the OrientationService singleton object
+     */
     public static OrientationService singleton(Activity activity) {
         if (instance == null) {
             instance = new OrientationService(activity);
         }
         return instance;
+    }
+
+    /**
+     * Get orientation
+     * @return LiveData object that updates with orientation
+     */
+    public LiveData<Float> getOrientation() {
+        return this.azimuth;
+    }
+
+    /**
+     * Overwrite the class LiveData with an external mock data source
+     * @param mockDataSource mock data source
+     */
+
+    public void setMockOrientationSource(MutableLiveData<Float> mockDataSource) {
+        unregisterSensorListeners();
+        this.azimuth = mockDataSource;
+    }
+
+
+    /**
+     * Unregister the sensors after done using all instances of OrientationService
+     */
+    public void unregisterSensorListeners() {
+        sensorManager.unregisterListener(this);
     }
 
     public void onSensorChanged(SensorEvent event) {
@@ -60,6 +84,25 @@ public class OrientationService implements SensorEventListener, IOrientation {
         }
     }
 
+    public void onAccuracyChanged(Sensor sensor, int accuracy) {
+        // do nothing
+    }
+
+    /**
+     * Method called in constructor for sensor setup
+     */
+    private void registerSensorListeners() {
+        sensorManager.registerListener((SensorEventListener) this,
+                sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
+                SensorManager.SENSOR_DELAY_NORMAL);
+        sensorManager.registerListener((SensorEventListener) this,
+                sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD),
+                SensorManager.SENSOR_DELAY_NORMAL);
+    }
+
+    /**
+     * Method called in onSensorChanged to update orientation value
+     */
     private void onBothSensorDataAvailable() {
         // double check
         if (accelerometerReading == null || magnetometerReading == null) {
@@ -78,23 +121,6 @@ public class OrientationService implements SensorEventListener, IOrientation {
             // and extract the azimuth
             this.azimuth.postValue(orientation[0]);
         }
-    }
-
-    public void unregisterSensorListeners() {
-        sensorManager.unregisterListener(this);
-    }
-
-    public LiveData<Float> getOrientation() {
-        return this.azimuth;
-    }
-
-    public void setMockOrientationSource(MutableLiveData<Float> mockDataSource) {
-        unregisterSensorListeners();
-        this.azimuth = mockDataSource;
-    }
-
-    public void onAccuracyChanged(Sensor sensor, int accuracy) {
-        // do nothing
     }
 
 
