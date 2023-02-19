@@ -23,6 +23,11 @@ public class Point {
         this.label = labelIn;
     }
 
+    public Point(String[] point_str) {
+        this.label = point_str[0];
+        setLocation(point_str[1]);
+    }
+
     public void setLocation(String textinput){
         if(textinput.indexOf(",") == -1){
             throw new RuntimeException("something is wrong with the input!");
@@ -51,5 +56,9 @@ public class Point {
 
     public String getLabel() {
         return this.label;
+    }
+
+    public String toString() {
+        return "Label: " + this.label + ", Location: (" + this.latitude + ", " + this.longitude + ")";
     }
 }
