@@ -12,6 +12,11 @@ public class Display {
         this.orientation = orientation;
         this.compass = compass;
     }
+
+    public void update(Point newPosition) {
+        compass.update(newPosition);
+    }
+
     public Map<String, Float> modifyDegreesToLocations() {
         Map<String, Float> compassResult = this.compass.getDegreesToPoints();
         Map<String, Float> result = new HashMap<String, Float>();

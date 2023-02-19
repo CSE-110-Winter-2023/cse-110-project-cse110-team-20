@@ -16,6 +16,10 @@ public class Compass {
         currentPoint = current;
     }
 
+    public void update(Point newCurrent) {
+        this.currentPoint = newCurrent;
+    }
+
     Map<String, Float> getDegreesToPoints() {
         Converter converter = new Converter();
         float resultParent = converter.pointToDegreeFromNorth(currentPoint, parentPoint);

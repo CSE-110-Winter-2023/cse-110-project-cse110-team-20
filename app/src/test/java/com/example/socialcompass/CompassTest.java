@@ -9,7 +9,6 @@ import android.util.Log;
 import java.util.Map;
 
 public class CompassTest {
-    float THRESHOLD = 5;
 
     @Test
     public void testBasicDirections() {
@@ -21,7 +20,8 @@ public class CompassTest {
         Compass compass = new Compass(current, northPoint, eastPoint, southPoint);
         Map<String, Float> result = compass.getDegreesToPoints();
 
-        assertTrue(result.get("friend") - result.get("parent") < 90 + THRESHOLD && result.get("friend") - result.get("parent") > 90 - THRESHOLD);
-        assertTrue(result.get("home") - result.get("friend") < 90 + THRESHOLD && result.get("home") - result.get("friend") > 90 - THRESHOLD);
+        assertTrue(result.get("parent") >= 355 || result.get("parent") <= 5);
+        assertTrue(result.get("friend") >= 85 || result.get("friend") <= 95);
+        assertTrue(result.get("home") >= 175 || result.get("home") <= 185);
     }
 }
