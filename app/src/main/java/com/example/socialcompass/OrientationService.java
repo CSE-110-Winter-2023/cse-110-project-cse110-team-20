@@ -18,6 +18,7 @@ public class OrientationService implements SensorEventListener, IOrientation {
     private float[] accelerometerReading;
     private float[] magnetometerReading;
     private MutableLiveData<Float> azimuth;
+    //azimuth=0 is north
 
     /**
      * Constructor for OrientationService
