@@ -21,18 +21,18 @@ public class Display {
     public Map<String, Float> modifyDegreesToLocations() {
         Map<String, Float> compassResult = this.compass.getDegreesToPoints();
         Map<String, Float> result = new HashMap<String, Float>();
-        result.put("parent", compassResult.get("parent") - orientation.getOrientation());
-        result.put("friend", compassResult.get("friend") - orientation.getOrientation());
-        result.put("home", compassResult.get("home") - orientation.getOrientation());
-        result.put("north", orientation.getOrientation()*(-1));
+        result.put("parent", compassResult.get("parent") - orientation.getOrientation().getValue());
+        result.put("friend", compassResult.get("friend") - orientation.getOrientation().getValue());
+        result.put("home", compassResult.get("home") - orientation.getOrientation().getValue());
+        result.put("north", orientation.getOrientation().getValue()*(-1));
         return result;
     }
     public Map<String, Float> modifyDegreesToLocations(Map<String, Float> compassResult) {
         Map<String, Float> result = new HashMap<String, Float>();
-        result.put("parent", compassResult.get("parent") - orientation.getOrientation());
-        result.put("friend", compassResult.get("friend") - orientation.getOrientation());
-        result.put("home", compassResult.get("home") - orientation.getOrientation());
-        result.put("north", orientation.getOrientation());
+        result.put("parent", compassResult.get("parent") - orientation.getOrientation().getValue());
+        result.put("friend", compassResult.get("friend") - orientation.getOrientation().getValue());
+        result.put("home", compassResult.get("home") - orientation.getOrientation().getValue());
+        result.put("north", orientation.getOrientation().getValue());
         return result;
     }
 }
