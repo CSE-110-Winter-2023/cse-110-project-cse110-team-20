@@ -1,5 +1,7 @@
 package com.example.socialcompass;
 
+import static com.example.socialcompass.Mapscreen.device_orientation;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
@@ -65,6 +67,10 @@ public class MainActivity extends AppCompatActivity {
         wpstatus.setText("");
         wpname.setHint("Input datapoint name");
         wpstatus.setHint("Input latitude and longitude");
+    }
+
+    public static Float getDevice_orientation(){
+        return device_orientation;
     }
 
     public void AddDataClicked(View view) {
