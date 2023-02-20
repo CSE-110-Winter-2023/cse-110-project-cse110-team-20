@@ -10,6 +10,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -25,9 +26,12 @@ public class Mapscreen extends AppCompatActivity {
 
     Point point1, point2, point3, currentLocation;
 
+    MockOrientation mockorientation;
+
     private TextView redLegendText;
     private TextView yellowLegendText;
     private TextView greenLegendText;
+    private TextView orientation;
     private ImageView redPoint;
     private ImageView yellowPoint;
     private ImageView greenPoint;
@@ -45,10 +49,11 @@ public class Mapscreen extends AppCompatActivity {
         locationService = locationService.singleton(this);
 
         getPoints();
+        getOrientation();
         setLegends();
 
         currentLocation = new Point();
-        display = new Display(new MockOrientation(),  new Compass(currentLocation, point2, point3, point1));
+        display = new Display(mockorientation,  new Compass(currentLocation, point2, point3, point1));
 
         locationService.getLocation().observe(this, loc->{
             currentLocation.setLocation(loc.first.floatValue(), loc.second.floatValue());
@@ -71,6 +76,7 @@ public class Mapscreen extends AppCompatActivity {
         yellowPoint = (ImageView) findViewById(R.id.yellow_point);
         greenPoint = (ImageView) findViewById(R.id.green_point);
         northPoint = (ImageView) findViewById(R.id.north_point);
+        orientation = findViewById(R.id.editOrientation);
     }
 
     void setLegends() {
@@ -96,9 +102,18 @@ public class Mapscreen extends AppCompatActivity {
         Log.d("test", point2.toString());
         Log.d("test", point3.toString());
     }
+    void getOrientation(){
+        Bundle extras = getIntent().getExtras();
 
+        if (extras != null) {
+            mockorientation = new MockOrientation(extras.getFloat("orientation"));
+        } else {
+            mockorientation= new MockOrientation();
+        }
+
+    }
     void updateDisplay() {
-        display.update(currentLocation);
+        display.update(currentLocation, mockorientation);
         Map<String, Float> degreesForDisplay = display.modifyDegreesToLocations();
 
         ConstraintLayout.LayoutParams layoutParamsRed = (ConstraintLayout.LayoutParams) redPoint.getLayoutParams();
@@ -118,4 +133,8 @@ public class Mapscreen extends AppCompatActivity {
         northPoint.setLayoutParams(layoutParamsNorth);
     }
 
+    public void OkbtnClicked(View view) {
+        mockorientation.setOrientation(Float.parseFloat(orientation.getText().toString()));
+        updateDisplay();
+    }
 }

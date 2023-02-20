@@ -92,10 +92,10 @@
         android:layout_width="400dp"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/Compass"
-        android:layout_marginTop="32dp"
-        tools:layout_editor_absoluteX="5dp"
-        tools:ignore="MissingConstraints">
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="5dp">
 
         <ImageView
             android:id="@+id/red_point_legend"
@@ -110,8 +110,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="32dp"
-            android:textAlignment="center"
-            android:text="Location 1" />
+            android:text="Location 1"
+            android:textAlignment="center" />
 
         <ImageView
             android:id="@+id/yellow_point_legend"
@@ -125,9 +125,9 @@
             android:id="@+id/yellow_label_legend"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textAlignment="center"
             android:layout_marginBottom="32dp"
-            android:text="Location 2" />
+            android:text="Location 2"
+            android:textAlignment="center" />
 
         <ImageView
             android:id="@+id/green_point_legend"
@@ -141,9 +141,32 @@
             android:id="@+id/green_label_legend"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textAlignment="center"
             android:layout_marginBottom="32dp"
-            android:text="Location 3" />
+            android:text="Location 3"
+            android:textAlignment="center" />
     </LinearLayout>
+
+    <EditText
+        android:id="@+id/editOrientation"
+        android:layout_width="157dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="64dp"
+        android:layout_marginBottom="4dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:hint="Orientation"
+        app:layout_constraintBottom_toTopOf="@+id/Compass"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/ok_btn"
+        android:layout_width="61dp"
+        android:layout_height="43dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="4dp"
+        android:text="OK"
+        android:onClick="OkbtnClicked"
+        app:layout_constraintStart_toEndOf="@+id/editOrientation"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
