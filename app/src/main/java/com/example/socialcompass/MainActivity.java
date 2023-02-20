@@ -1,7 +1,7 @@
 package com.example.socialcompass;
 
 import androidx.appcompat.app.AppCompatActivity;
-
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -13,24 +13,42 @@ import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
+    private OrientationService orientationService;
+    public static Float device_orientation;
     private SharedPreferences preferences;
     private TextView wpname;
     private TextView wpstatus;
     private TextView mockOrientation;
-
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        
+        orientationService = OrientationService.singleton(this);
+        orientationService.getOrientation().observe(this, orient ->{
+            device_orientation = (Float)orient;
+        });
+        
         wireWidgets();
-
         preferences = getPreferences(MODE_PRIVATE);
-
         int numPoints = preferences.getAll().size();
         if (numPoints >= 2) {
             goToMapScreen();
         }
+    }
+
+
+    @Override
+    protected void onPause(){
+        super.onPause();
+        //unregister orientationservice
+        orientationService.unregisterSensorListeners();
+    }
+
+    public static Float getDevice_orientation(){
+        return device_orientation;
+  
     }
 
     private void wireWidgets() {

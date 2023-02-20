@@ -1,21 +1,24 @@
 package com.example.socialcompass;
 
-public class MockOrientation implements IOrientation {
-    private float orientation;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
-    MockOrientation(float d) {
-        setOrientation(d);
-    }
+public class MockOrientation implements IOrientation {
+    private MutableLiveData<Float> orientation;
 
     MockOrientation() {
-        setOrientation(0.0f);
+        this(0.0f);
+    }
+    MockOrientation(float f) {
+        orientation = new MutableLiveData<Float>();
+        setOrientation(f);
     }
 
-    public void setOrientation(float d) {
-        this.orientation = d;
+    public void setOrientation(float f) {
+        this.orientation.setValue(f);
     }
 
-    public float getOrientation() {
+    public LiveData<Float> getOrientation() {
         return orientation;
     }
 }
