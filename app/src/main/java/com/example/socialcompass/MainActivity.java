@@ -1,9 +1,13 @@
 package com.example.socialcompass;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+
+import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -13,8 +17,6 @@ import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
-    private OrientationService orientationService;
-    public static Float device_orientation;
     private SharedPreferences preferences;
     private TextView wpname;
     private TextView wpstatus;
@@ -24,11 +26,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        
-        orientationService = OrientationService.singleton(this);
-        orientationService.getOrientation().observe(this, orient ->{
-            device_orientation = (Float)orient;
-        });
+
+        requestLocationPermissions();
         
         wireWidgets();
         preferences = getPreferences(MODE_PRIVATE);
@@ -38,23 +37,17 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
-    @Override
-    protected void onPause(){
-        super.onPause();
-        //unregister orientationservice
-        orientationService.unregisterSensorListeners();
-    }
-
-    public static Float getDevice_orientation(){
-        return device_orientation;
-  
-    }
-
     private void wireWidgets() {
         wpname = findViewById(R.id.waypoint_name);
         wpstatus = findViewById(R.id.waypoint_coord);
         mockOrientation = findViewById(R.id.mock_orientation);
+    }
+
+    void requestLocationPermissions() {
+        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 200);
+        }
     }
 
     private void goToMapScreen() {
