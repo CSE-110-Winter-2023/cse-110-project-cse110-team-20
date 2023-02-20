@@ -16,6 +16,7 @@ public class MainActivity extends AppCompatActivity {
     private SharedPreferences preferences;
     private TextView wpname;
     private TextView wpstatus;
+    private TextView mockOrientation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
     private void wireWidgets() {
         wpname = findViewById(R.id.waypoint_name);
         wpstatus = findViewById(R.id.waypoint_coord);
+        mockOrientation = findViewById(R.id.mock_orientation);
     }
 
     private void goToMapScreen() {
@@ -43,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
         intent.putExtra("point1", ans[0]);
         intent.putExtra("point2", ans[1]);
         intent.putExtra("point3", ans[2]);
+        intent.putExtra("orientation", Float.parseFloat(mockOrientation.getText().toString()));
         startActivity(intent);
     }
 
@@ -53,11 +56,12 @@ public class MainActivity extends AppCompatActivity {
         wpstatus.setHint("Input latitude and longitude");
     }
 
-    private void AddDataClicked(View view) {
+    public void AddDataClicked(View view) {
         int numPoints = preferences.getAll().size();
 
-        if (wpname.getText().toString().equals("") &&
-                wpstatus.getText().toString().equals("")) {
+        if (wpname.getText().toString().equals("") ||
+                wpstatus.getText().toString().equals("")
+                    ||mockOrientation.getText().toString().equals("")) {
             //if user just tried to input text without changing inputs
             Utilities.showAlert(this, "Invalid Input");
             return;
@@ -96,4 +100,6 @@ public class MainActivity extends AppCompatActivity {
         editor.putString(wpname.getText().toString(), wpstatus.getText().toString());
         editor.apply();
     }
+
+
 }
