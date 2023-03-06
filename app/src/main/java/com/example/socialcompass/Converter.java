@@ -2,6 +2,8 @@ package com.example.socialcompass;
 
 public class Converter {
 
+    private Converter() {}
+
     /**
      * Compute angle of the line connecting two lat/long points
      * @param   startLat    latitude of starting point, between -90 and 90
@@ -11,7 +13,7 @@ public class Converter {
      * @return              angle of ray from start to end, between -180 and 180, where 0
      *                      represents north, 90 represents east, -90 represents west.
      */
-    protected float coordinateToDegree(float startLat, float startLng, float endLat, float endLng) {
+    public static float coordinateToDegree(float startLat, float startLng, float endLat, float endLng) {
         /*float longitude1 = startLng;
         float longitude2 = endLng;
         float latitude1 = (float) Math.toRadians(startLat);
@@ -36,14 +38,10 @@ public class Converter {
         return (float) (Math.toDegrees(Math.atan2(lngDiff, latDiff)));
     }
 
-    /**
-     * Wrapper; computes angle of line from start to end, taking Point as input, and feeds to
-     * {@link #coordinateToDegree(float, float, float, float) coordinateToDegree()}.
-     * @param startPoint point to start at
-     * @param endPoint   point to end at
-     * @return           angle of ray from startPoint to endPoint; see coordinateToDegree
+    /*
+     * wrapper for coordinateToDegree
      */
-    protected float pointToDegreeFromNorth(Point startPoint, Point endPoint) {
+    public static float pointToDegreeFromNorth(Point startPoint, Point endPoint) {
         /*
         float latitude_north = 90;
         float longitude_north = -135;
@@ -62,7 +60,7 @@ public class Converter {
      * @param   endLng      longitide of ending point, between -180 and 180
      * @return              great-circle distance, in miles
      */
-    protected float coordinateToDistanceInMiles(float startLat, float startLng, float endLat, float endLng) {
+    public static float coordinateToDistanceInMiles(float startLat, float startLng, float endLat, float endLng) {
         final float radius = 3953.1676f; // radius of earth in miles
         // use the simple formula
         // https://en.wikipedia.org/wiki/Great-circle_distance
@@ -79,7 +77,10 @@ public class Converter {
         return (float) angle * radius;
     }
 
-    protected float pointToDistanceInMiles(Point startPoint, Point endPoint) {
+    /*
+     * wrapper for coordinateToDistanceInMiles
+     */
+    public static float pointToDistanceInMiles(Point startPoint, Point endPoint) {
         return coordinateToDistanceInMiles(startPoint.getLatitude(), startPoint.getLongitude(),
                 endPoint.getLatitude(), endPoint.getLongitude());
     }
