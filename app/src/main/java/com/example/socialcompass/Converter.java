@@ -1,5 +1,7 @@
 package com.example.socialcompass;
 
+import androidx.annotation.NonNull;
+
 public class Converter {
 
     private Converter() {}
@@ -41,7 +43,7 @@ public class Converter {
     /*
      * wrapper for coordinateToDegree
      */
-    public static float pointToDegreeFromNorth(Point startPoint, Point endPoint) {
+    public static float pointToDegreeFromNorth(@NonNull Point startPoint, @NonNull Point endPoint) {
         /*
         float latitude_north = 90;
         float longitude_north = -135;
@@ -80,7 +82,7 @@ public class Converter {
     /*
      * wrapper for coordinateToDistanceInMiles
      */
-    public static float pointToDistanceInMiles(Point startPoint, Point endPoint) {
+    public static float pointToDistanceInMiles(@NonNull Point startPoint, @NonNull Point endPoint) {
         return coordinateToDistanceInMiles(startPoint.getLatitude(), startPoint.getLongitude(),
                 endPoint.getLatitude(), endPoint.getLongitude());
     }
