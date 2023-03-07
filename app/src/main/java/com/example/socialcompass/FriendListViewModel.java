@@ -39,6 +39,10 @@ public class FriendListViewModel extends AndroidViewModel {
         return repo.getRemote(uids);
     }
 
+    public void updateUser(Person person) {
+        repo.upsertRemote(person);
+    }
+
     public LiveData<Person> getPerson(String uid) {
         return repo.getLocal(uid);
     }

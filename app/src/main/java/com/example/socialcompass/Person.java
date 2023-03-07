@@ -39,6 +39,12 @@ public class Person {
         return new Gson().fromJson(json, Person.class);
     }
 
+    public Person changeLocation(float latitude, float longitude) {
+        this.latitude = latitude;
+        this.longitude = longitude;
+        return this;
+    }
+
     @Override
     public String toString() {
         return "Person{" +

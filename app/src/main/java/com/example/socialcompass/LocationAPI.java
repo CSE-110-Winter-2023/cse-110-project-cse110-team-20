@@ -59,7 +59,7 @@ public class LocationAPI {
         try (var response = client.newCall(request).execute()) {
             assert response.body() != null;
             var responseData = response.body().string();
-            Log.d("API-Test", responseData);
+            Log.d("API-Test: put", responseData);
         } catch (Exception e) {
             e.printStackTrace();
         }
