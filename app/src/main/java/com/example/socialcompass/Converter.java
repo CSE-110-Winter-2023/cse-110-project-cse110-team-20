@@ -87,4 +87,42 @@ public class Converter {
                 endPoint.getLatitude(), endPoint.getLongitude());
     }
 
+    /**
+     * Convert true distance (miles away) to map distance (radius in pixels)
+     * @param distanceMiles location distance, in miles
+     * @param circleRadius radius of map circle, in pixels
+     * @param circleZoom number of zoom rings on map, from 1 to 4
+     * @return radius to place location point, in pixels
+     */
+    public static int distanceToMapRadius(float distanceMiles, int circleRadius, int circleZoom) {
+        int bracket = distanceToMapBracket(distanceMiles);
+        if (bracket > circleZoom) {
+            return circleRadius;
+        }
+        int ringSize = circleRadius / circleZoom;
+        return ringSize*bracket + (int) (ringSize * distanceToBracketProp(distanceMiles, bracket));
+    }
+
+    /*
+     * helper method, returns 0-3 for brackets 1-4
+     */
+    private static int distanceToMapBracket(float distanceMiles) {
+        final float[] brackets = {0, 1, 10, 500};
+        for (int i = 3; i >= 0; i--) {
+            if (distanceMiles > brackets[i]) {
+                return i;
+            }
+        }
+        return -1; // should never reach this point for positive distance
+    }
+
+    /*
+     * helper method, returns percentage distance within a bracket
+     * possible feature creep: dynamically adjust fifth bracket distance depending on largest dist
+     */
+    private static float distanceToBracketProp(float distanceMiles, int bracket) {
+        final float[] brackets = {0, 1, 10, 500, 12500}; // earth has circum. of 25000
+        return (distanceMiles - brackets[bracket]) / (brackets[bracket+1] - brackets[bracket]);
+    }
+
 }
