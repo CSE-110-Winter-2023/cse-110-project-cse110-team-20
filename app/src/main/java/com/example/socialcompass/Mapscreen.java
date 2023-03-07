@@ -124,21 +124,26 @@ public class Mapscreen extends AppCompatActivity {
     void updateDisplay() {
         display.update(currentLocation, orientation);
         Map<String, Float> degreesForDisplay = display.modifyDegreesToLocations();
+        Map<String, Integer> distanceForDisplay = display.modifyDistanceToLocations(360, 4);
 
         ConstraintLayout.LayoutParams layoutParamsRed = (ConstraintLayout.LayoutParams) redPoint.getLayoutParams();
         layoutParamsRed.circleAngle = degreesForDisplay.get("home");
+        layoutParamsRed.circleRadius = distanceForDisplay.get("home");
         redPoint.setLayoutParams(layoutParamsRed);
 
         ConstraintLayout.LayoutParams layoutParamsYellow = (ConstraintLayout.LayoutParams) yellowPoint.getLayoutParams();
         layoutParamsYellow.circleAngle = degreesForDisplay.get("parent");
+        layoutParamsYellow.circleRadius = distanceForDisplay.get("parent");
         yellowPoint.setLayoutParams(layoutParamsYellow);
 
         ConstraintLayout.LayoutParams layoutParamsGreen = (ConstraintLayout.LayoutParams) greenPoint.getLayoutParams();
         layoutParamsGreen.circleAngle = degreesForDisplay.get("friend");
+        layoutParamsGreen.circleRadius = distanceForDisplay.get("friend");
         greenPoint.setLayoutParams(layoutParamsGreen);
 
         ConstraintLayout.LayoutParams layoutParamsNorth = (ConstraintLayout.LayoutParams) northPoint.getLayoutParams();
         layoutParamsNorth.circleAngle = degreesForDisplay.get("north");
+        layoutParamsNorth.circleRadius = 375;
         northPoint.setLayoutParams(layoutParamsNorth);
     }
 

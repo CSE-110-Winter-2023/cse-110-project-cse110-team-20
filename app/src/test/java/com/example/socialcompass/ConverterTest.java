@@ -148,4 +148,42 @@ public class ConverterTest {
         assertEquals(expected, kamchatkaToKodiak, 25);
     }
 
+    @Test
+    public void testDistToBracket() {
+        // test that it finds the right bracket
+        assertEquals(0, Converter.distanceToMapBracket(0.7f));
+        assertEquals(1, Converter.distanceToMapBracket(7.7f));
+        assertEquals(2, Converter.distanceToMapBracket(77.7f));
+        assertEquals(3, Converter.distanceToMapBracket(777.7f));
+    }
+
+    @Test
+    public void testDistToProp() {
+        final float delta = 0.01f;
+        // test that it finds the right prop in a ring
+        assertEquals(0.5f, Converter.distanceToBracketProp(0.5f, 0), delta);
+        assertEquals(0.5f, Converter.distanceToBracketProp(5.5f, 1), delta);
+        assertEquals(0.0f, Converter.distanceToBracketProp(1.0f, 1), delta);
+        assertEquals(1.0f, Converter.distanceToBracketProp(1.0f, 0), delta);
+        assertEquals(0.37f, Converter.distanceToBracketProp(191.3f, 2), delta);
+    }
+
+    @Test
+    public void testDistToRadius() {
+        int circleRadius = 100;
+        int circleZoom = 4;
+        // test that it finds the right radius on the map
+        assertEquals(50, Converter.distanceToMapRadius(10f, circleRadius, circleZoom));
+        assertEquals(12, Converter.distanceToMapRadius(0.5f, circleRadius, circleZoom));
+        assertEquals(59, Converter.distanceToMapRadius(191.3f, circleRadius, circleZoom));
+    }
+
+    @Test
+    public void testPointToRadius() {
+        int circleRadius = 100;
+        int circleZoom = 4;
+        // test that it finds the right radius on the map
+        
+    }
+
 }

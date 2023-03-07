@@ -106,7 +106,7 @@ public class Converter {
     /*
      * helper method, returns 0-3 for brackets 1-4
      */
-    private static int distanceToMapBracket(float distanceMiles) {
+    public static int distanceToMapBracket(float distanceMiles) {
         final float[] brackets = {0, 1, 10, 500};
         for (int i = 3; i >= 0; i--) {
             if (distanceMiles > brackets[i]) {
@@ -120,9 +120,18 @@ public class Converter {
      * helper method, returns percentage distance within a bracket
      * possible feature creep: dynamically adjust fifth bracket distance depending on largest dist
      */
-    private static float distanceToBracketProp(float distanceMiles, int bracket) {
+    public static float distanceToBracketProp(float distanceMiles, int bracket) {
         final float[] brackets = {0, 1, 10, 500, 12500}; // earth has circum. of 25000
         return (distanceMiles - brackets[bracket]) / (brackets[bracket+1] - brackets[bracket]);
+    }
+
+    /*
+     * wrapper for distanceToMapRadius
+     */
+    public static int pointToMapRadius(@NonNull Point startPoint, @NonNull Point endPoint,
+                                       int circleRadius, int circleZoom) {
+        return distanceToMapRadius(pointToDistanceInMiles(startPoint, endPoint),
+                circleRadius, circleZoom);
     }
 
 }
