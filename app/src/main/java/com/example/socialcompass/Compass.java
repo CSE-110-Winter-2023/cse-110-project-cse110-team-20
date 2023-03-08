@@ -21,12 +21,24 @@ public class Compass {
     }
 
     Map<String, Float> getDegreesToPoints() {
-        Converter converter = new Converter();
-        float resultParent = converter.pointToDegreeFromNorth(currentPoint, parentPoint);
-        float resultFriend = converter.pointToDegreeFromNorth(currentPoint, friendPoint);
-        float resultHome = converter.pointToDegreeFromNorth(currentPoint, homePoint);
+        float resultParent = Converter.pointToDegreeFromNorth(currentPoint, parentPoint);
+        float resultFriend = Converter.pointToDegreeFromNorth(currentPoint, friendPoint);
+        float resultHome = Converter.pointToDegreeFromNorth(currentPoint, homePoint);
 
         Map<String, Float> map = new HashMap<String, Float>();
+        map.put("parent",resultParent);
+        map.put("friend",resultFriend);
+        map.put("home",resultHome);
+
+        return map;
+    }
+
+    Map<String, Integer> getDistanceToPoints(int circleRadius, int circleZoom) {
+        int resultParent = Converter.pointToMapRadius(currentPoint, parentPoint, circleRadius, circleZoom);
+        int resultFriend = Converter.pointToMapRadius(currentPoint, friendPoint, circleRadius, circleZoom);
+        int resultHome = Converter.pointToMapRadius(currentPoint, homePoint, circleRadius, circleZoom);
+
+        Map<String, Integer> map = new HashMap<String, Integer>();
         map.put("parent",resultParent);
         map.put("friend",resultFriend);
         map.put("home",resultHome);
