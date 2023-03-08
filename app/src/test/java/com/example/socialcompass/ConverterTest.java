@@ -9,7 +9,23 @@ import android.util.Log;
 import java.util.Map;
 
 public class ConverterTest {
-    //private static Converter converter = new Converter();
+
+    public static Float err = 0.01f;
+    
+    @Test
+    public void testCtoD(){
+        //try coordinate to degree calculation
+        Float ans = Converter.coordinateToDegree(0,0,90,90);
+        assertEquals(360.0f, ans, err);
+    }
+    @Test
+    public void testDfromNorth(){
+        //try degree from north
+        Point a = new Point(0,0);
+        Point b = new Point(30,30);
+        Float ans = Converter.pointToDegreeFromNorth(a,b);
+        assertEquals(40.893f, ans, err);
+        
     @Test
     public void testDirNorth() {
         // test if it finds the direction going north
@@ -17,7 +33,7 @@ public class ConverterTest {
         Point originPoint = new Point(coords[0], coords[1]);
         Point northPoint = new Point(coords[2], coords[3]);
         float originToNorth = Converter.pointToDegreeFromNorth(originPoint, northPoint);
-        assertEquals(0.0f, originToNorth,0.001f);
+        assertEquals(0.0f, originToNorth, err);
     }
 
     @Test
@@ -27,7 +43,7 @@ public class ConverterTest {
         Point originPoint = new Point(coords[0], coords[1]);
         Point northPoint = new Point(coords[2], coords[3]);
         float originToEast = Converter.pointToDegreeFromNorth(originPoint, northPoint);
-        assertEquals(90.0f, originToEast, 0.001f);
+        assertEquals(90.0f, originToEast, err);
     }
 
     @Test
@@ -37,7 +53,7 @@ public class ConverterTest {
         Point originPoint = new Point(coords[0], coords[1]);
         Point northPoint = new Point(coords[2], coords[3]);
         float originToWest = Converter.pointToDegreeFromNorth(originPoint, northPoint);
-        assertEquals(-90.0f, originToWest, 0.001f);
+        assertEquals(-90.0f, originToWest, err);
     }
 
     @Test
@@ -47,7 +63,7 @@ public class ConverterTest {
         Point originPoint = new Point(coords[0], coords[1]);
         Point northPoint = new Point(coords[2], coords[3]);
         float originToSouthwest = Converter.pointToDegreeFromNorth(originPoint, northPoint);
-        assertEquals(-135.0f, originToSouthwest, 0.001f);
+        assertEquals(-135.0f, originToSouthwest, err);
     }
 
     @Test
@@ -103,7 +119,7 @@ public class ConverterTest {
 
         // using google maps
         double expected = 0.2266;
-        assertEquals(expected, fahToGeisel, 0.01);
+        assertEquals(expected, fahToGeisel, err);
     }
 
     @Test
@@ -159,13 +175,12 @@ public class ConverterTest {
 
     @Test
     public void testDistToProp() {
-        final float delta = 0.01f;
         // test that it finds the right prop in a ring
-        assertEquals(0.5f, Converter.distanceToBracketProp(0.5f, 0), delta);
-        assertEquals(0.5f, Converter.distanceToBracketProp(5.5f, 1), delta);
-        assertEquals(0.0f, Converter.distanceToBracketProp(1.0f, 1), delta);
-        assertEquals(1.0f, Converter.distanceToBracketProp(1.0f, 0), delta);
-        assertEquals(0.37f, Converter.distanceToBracketProp(191.3f, 2), delta);
+        assertEquals(0.5f, Converter.distanceToBracketProp(0.5f, 0), err);
+        assertEquals(0.5f, Converter.distanceToBracketProp(5.5f, 1), err);
+        assertEquals(0.0f, Converter.distanceToBracketProp(1.0f, 1), err);
+        assertEquals(1.0f, Converter.distanceToBracketProp(1.0f, 0), err);
+        assertEquals(0.37f, Converter.distanceToBracketProp(191.3f, 2), err);
     }
 
     @Test
