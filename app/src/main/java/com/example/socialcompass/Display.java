@@ -27,6 +27,11 @@ public class Display {
         result.put("north", orientation.getOrientation().getValue()*(-1));
         return result;
     }
+
+    public Map<String, Integer> modifyDistanceToLocations(int circleRadius, int circleZoom) {
+        return this.compass.getDistanceToPoints(circleRadius, circleZoom);
+    }
+    /*
     public Map<String, Float> modifyDegreesToLocations(Map<String, Float> compassResult) {
         Map<String, Float> result = new HashMap<String, Float>();
         result.put("parent", compassResult.get("parent") - orientation.getOrientation().getValue());
@@ -35,4 +40,5 @@ public class Display {
         result.put("north", orientation.getOrientation().getValue());
         return result;
     }
+    */
 }
