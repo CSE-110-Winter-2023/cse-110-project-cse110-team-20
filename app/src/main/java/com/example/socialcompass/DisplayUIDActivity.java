@@ -15,8 +15,6 @@ import android.widget.TextView;
 import java.util.UUID;
 
 public class DisplayUIDActivity extends AppCompatActivity {
-
-    private LocationService locationService;
     private PersonRepository repo;
     TextView titleText;
     TextView uidText;
@@ -33,8 +31,6 @@ public class DisplayUIDActivity extends AppCompatActivity {
         setContentView(R.layout.activity_display_uidactivity);
 
         wireWidgets();
-        locationService = locationService.singleton(this);
-        LocationAPI api = new LocationAPI();
 
         getIntents();
         Log.d("API-Test", "" + longitude + " " + latitude);
