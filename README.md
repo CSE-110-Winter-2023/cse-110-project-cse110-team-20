@@ -1,23 +1,34 @@
 # CSE 110 team 20
 
-## [Next Due: **MS 1 Delivery** Feb 19 11:55pm](https://canvas.ucsd.edu/courses/42716/assignments/567146)
-### [US3: Persistence of house locations](https://github.com/CSE-110-Winter-2023/cse-110-project-cse110-team-20/milestone/1)
-> **_NOTE:_** : As a user I want the app to still work even after it is killed and restarted so that I don't have to reenter the information again (just to see in which direction my friends and parents are)
+
+## [Next Due: **MS 2 Iteration Check-In** Mar 8 11:55pm](https://canvas.ucsd.edu/courses/42716/assignments/567152)
+### [Github Project – 4 points](https://github.com/CSE-110-Winter-2023/cse-110-project-cse110-team-20/milestone/2)
+
 
 **To-do list:**
-- [ ] T3-1: Create a structure to save a waypoint such as a sharedpreferences.
+- [ ] 2' - Used correctly in tracking progress of Tasks, Stories, and Iterations
+- [ ] 2' - Closed at least two Stories
 
-- [ ] T3-2: On the input screen, add a button or prompt to take in a name and coordinate, then send it to the structure holding waypoints.
-- [ ] T3-3: For the structure that stores the waypoint, make it so that it will store it even if the app is closed 
-- [ ] T3-4: Testing
-### [US4: Location and orientation update over time](https://github.com/CSE-110-Winter-2023/cse-110-project-cse110-team-20/milestone/1)
-> **_NOTE:_** : As a user I want the app to continue to update the location and orientation so that I can continue to see which direction is up over time
+
+### [Quality Assurance via Continuous Integration – 4 points](https://github.com/CSE-110-Winter-2023/cse-110-project-cse110-team-20/milestone/2)
+> **_NOTE:_** : A Story is not "done" until its tests have passed CI and code review.
+
 
 **To-do list:**
-- [ ] T4-1: Record what the current location of the user is
-- [ ] T4-2: Take in the saved locations and use User story 2 to see what direction they are from your current location
-- [ ] T4-3: Add in something similar to what is in Lab 5 to continuously check your location and and run T4-2 in real-time
-- [ ] T4-4: In the continuous check, also keep on updating and changing values on the compass screen to match the changing location
-- [ ] T4-5: Testing 
+- [ ] 2' - At least 1 BDD Scenario test for each of the above Stories, written and passed on GitHub Actions CI
+- [ ] 2' - Written code reviews for your completed Stories
+
+
+
+
+### [Calculation of Velocity – 2 points](https://docs.google.com/document/d/1kjrh3HqFfco6XOrvu_ikTHWRfA2X9PY9GeOjha5_0Wg/edit)
+
+
+**To-do list:**
+- [ ] 1' - Calculate the project Velocity for the next Iteration*
+- [ ] 1' - Re-plan appropriately and state the plan*
+
 
 **To be continued →**
+
+
