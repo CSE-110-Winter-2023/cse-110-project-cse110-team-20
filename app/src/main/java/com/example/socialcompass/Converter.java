@@ -15,6 +15,7 @@ public class Converter {
      * @return              angle of ray from start to end, between -180 and 180, where 0
      *                      represents north, 90 represents east, -90 represents west.
      */
+
     public static float coordinateToDegree(float startLat, float startLng, float endLat, float endLng) {
         /*float longitude1 = startLng;
         float longitude2 = endLng;

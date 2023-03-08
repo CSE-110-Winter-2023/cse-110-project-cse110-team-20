@@ -62,8 +62,6 @@ public class OrientationService implements SensorEventListener, IOrientation {
         unregisterSensorListeners();
         this.azimuth = mockDataSource;
     }
-
-
     /**
      * Unregister the sensors after done using all instances of OrientationService
      */

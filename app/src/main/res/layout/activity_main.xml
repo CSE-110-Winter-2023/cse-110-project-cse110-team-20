@@ -7,58 +7,30 @@
     tools:context=".MainActivity">
 
     <Button
-        android:id="@+id/add_data"
-        android:layout_width="0dp"
+        android:id="@+id/ok_btn"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="100dp"
-        android:layout_marginTop="300dp"
-        android:layout_marginEnd="100dp"
-        android:layout_marginBottom="200dp"
-        android:text="Add User Data"
-        android:onClick="AddDataClicked"
+        android:layout_marginBottom="260dp"
+        android:onClick="onClickOK"
+        android:text="OK"
+        android:textSize="30dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <EditText
-        android:id="@+id/waypoint_coord"
-        android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="50dp"
-        android:layout_marginEnd="50dp"
-        android:layout_marginBottom="40dp"
-        android:inputType="textPersonName"
-        android:hint="Input lattitude and longitude"
-        app:layout_constraintBottom_toTopOf="@+id/add_data"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias=".5"
         app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
-        android:id="@+id/waypoint_name"
-        android:layout_width="0dp"
+        android:id="@+id/name"
+        android:layout_width="300dp"
         android:layout_height="50dp"
-        android:layout_marginStart="50dp"
-        android:layout_marginEnd="50dp"
-        android:layout_marginBottom="40dp"
+        android:hint="Enter Name"
         android:inputType="textPersonName"
-        android:hint="Input datapoint name"
-        app:layout_constraintBottom_toTopOf="@id/waypoint_coord"
+        android:textAlignment="center"
+        android:textSize="30dp"
+        app:layout_constraintBottom_toTopOf="@+id/ok_btn"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <EditText
-        android:id="@+id/mock_orientation"
-        android:layout_width="305dp"
-        android:layout_height="54dp"
-        android:layout_marginTop="156dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="0"
-        android:hint="Orientation"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/add_data" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.614" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
