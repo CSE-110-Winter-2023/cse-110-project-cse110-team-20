@@ -59,8 +59,6 @@ public class OrientationServiceTest {
     //test getorientation method
     @Test
     public void testGetOrientation(){
-
-
         ActivityScenario scenario = ActivityScenario.launch(MainActivity.class);
         scenario.moveToState(Lifecycle.State.STARTED);
         scenario.onActivity(activity -> {
@@ -77,8 +75,6 @@ public class OrientationServiceTest {
     //test changing accelerometer
     @Test
     public void testAccelchange(){
-
-
         ActivityScenario scenario = ActivityScenario.launch(MainActivity.class);
         scenario.moveToState(Lifecycle.State.STARTED);
         scenario.onActivity(activity -> {
@@ -95,8 +91,6 @@ public class OrientationServiceTest {
     //test changing magnetic field
     @Test
     public void testMagchange(){
-
-
         ActivityScenario scenario = ActivityScenario.launch(MainActivity.class);
         scenario.moveToState(Lifecycle.State.STARTED);
         scenario.onActivity(activity -> {
@@ -113,8 +107,6 @@ public class OrientationServiceTest {
     //test changing both sensor data
     @Test
     public void testBothchanged(){
-
-
         ActivityScenario scenario = ActivityScenario.launch(MainActivity.class);
         scenario.moveToState(Lifecycle.State.STARTED);
         scenario.onActivity(activity -> {
