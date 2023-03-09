@@ -111,18 +111,50 @@ public class OrientationServiceTest {
     }
 
     //test changing both sensor data
+//    @Test
+//    public void testBothchanged(){
+//        ActivityScenario scenario = ActivityScenario.launch(TestActivity.class);
+//        scenario.moveToState(Lifecycle.State.STARTED);
+//        scenario.onActivity(activity -> {
+//            OrientationService testos = OrientationService.singleton(activity);
+//            MutableLiveData mockdata = new MutableLiveData<Float>();
+//            testos.setMockOrientationSource(mockdata);
+//            mockdata.setValue(1.00f);
+//            LiveData observed = testos.getOrientation();
+//            //unsure how to do this assertion
+//            //assertEquals((Float)observed.getValue(), TestActivity.getDevice_orientation(), delta);
+//        });
+//    }
+
     @Test
     public void testBothchanged(){
         ActivityScenario scenario = ActivityScenario.launch(TestActivity.class);
         scenario.moveToState(Lifecycle.State.STARTED);
         scenario.onActivity(activity -> {
             OrientationService testos = OrientationService.singleton(activity);
-            MutableLiveData mockdata = new MutableLiveData<Float>();
-            testos.setMockOrientationSource(mockdata);
-            mockdata.setValue(1.00f);
-            LiveData observed = testos.getOrientation();
-            //unsure how to do this assertion
-            //assertEquals((Float)observed.getValue(), TestActivity.getDevice_orientation(), delta);
+            MutableLiveData<float[]> mockAccelData = new MutableLiveData<>();
+            MutableLiveData<float[]> mockMagData = new MutableLiveData<>();
+            testos.setMockAccelerometerSource(mockAccelData);
+            testos.setMockMagneticFieldSource(mockMagData);
+            float[] accelValues = {1.0f, 0.0f, 0.0f};
+            mockAccelData.setValue(accelValues);
+            float[] magValues = {0.0f, 1.0f, 0.0f};
+            mockMagData.setValue(magValues);
+
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            Float orientation = testos.getOrientation().getValue();
+            assertNotNull(orientation);
+            assertEquals(1.0f, orientation, delta);
         });
     }
+
+
+
+
+
 }

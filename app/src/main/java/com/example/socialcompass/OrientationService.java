@@ -18,6 +18,10 @@ public class OrientationService implements SensorEventListener, IOrientation {
     private float[] accelerometerReading;
     private float[] magnetometerReading;
     private MutableLiveData<Float> azimuth;
+    private MutableLiveData<float[]> mockAccelerometerSource = new MutableLiveData<>();
+    private MutableLiveData<float[]> mockMagneticFieldSource;
+
+
     //azimuth=0 is north
 
     /**
@@ -120,6 +124,17 @@ public class OrientationService implements SensorEventListener, IOrientation {
             this.azimuth.postValue(orientation[0]);
         }
     }
+    public void setMockAccelerometerSource(MutableLiveData<float[]> mockDataSource) {
+        unregisterSensorListeners();
+        this.mockAccelerometerSource = mockDataSource;
+    }
+
+    public void setMockMagneticFieldSource(MutableLiveData<float[]> mockDataSource) {
+        unregisterSensorListeners();
+        this.mockMagneticFieldSource = mockDataSource;
+    }
+
+
 
 
 }
