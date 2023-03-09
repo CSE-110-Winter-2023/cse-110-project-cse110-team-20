@@ -19,16 +19,13 @@
             android:name=".TestActivity"
             android:exported="false" />
         <activity
-            android:name=".CompassActivity"
-            android:exported="false" />
-        <activity
             android:name=".AddFriendsActivity"
             android:exported="false" />
         <activity
             android:name=".DisplayUIDActivity"
             android:exported="false" />
         <activity
-            android:name=".Mapscreen"
+            android:name=".CompassActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
