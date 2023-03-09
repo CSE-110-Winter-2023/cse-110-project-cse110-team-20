@@ -114,7 +114,7 @@ public class Converter {
                 return i;
             }
         }
-        return -1; // should never reach this point for positive distance
+        return 0; // should never reach this point for positive distance
     }
 
     /*

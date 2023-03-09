@@ -1,12 +1,11 @@
 package com.example.socialcompass;
 
-import static com.example.socialcompass.Mapscreen.device_orientation;
+import static com.example.socialcompass.CompassActivity.device_orientation;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -14,8 +13,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
-
-import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
