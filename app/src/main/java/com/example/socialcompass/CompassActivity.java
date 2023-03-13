@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -22,6 +23,8 @@ public class CompassActivity extends AppCompatActivity {
 
     SharedPreferences preferences;
     FriendListViewModel viewModel;
+
+    private int zoomLevel = 4; // technically number of circles
 
     private LocationService locationService;
 
@@ -43,14 +46,11 @@ public class CompassActivity extends AppCompatActivity {
 
     Orientation mockorientation;
 
-    private TextView redLegendText;
-    private TextView yellowLegendText;
-    private TextView greenLegendText;
     private TextView orientationText;
-    private ImageView redPoint;
-    private ImageView yellowPoint;
-    private ImageView greenPoint;
+
     private ImageView northPoint;
+
+    private Button incrZoomBtn, decrZoomBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,8 +85,8 @@ public class CompassActivity extends AppCompatActivity {
 
         Log.d("Compass Test", userUID);
 
-        user = new Person("", userUID, 0,0);
-
+        String userName = preferences.getString("name", "");
+        user = new Person(userName, userUID, 0,0);
 
         getOrientation();
 
@@ -170,14 +170,10 @@ public class CompassActivity extends AppCompatActivity {
 
 
     void wireWidgets() {
-        redLegendText = (TextView) findViewById(R.id.red_label_legend);
-        yellowLegendText = (TextView) findViewById(R.id.yellow_label_legend);
-        greenLegendText = (TextView) findViewById(R.id.green_label_legend);
-        redPoint = (ImageView) findViewById(R.id.red_point);
-        yellowPoint = (ImageView) findViewById(R.id.yellow_point);
-        greenPoint = (ImageView) findViewById(R.id.green_point);
         northPoint = (ImageView) findViewById(R.id.north_point);
         orientationText = findViewById(R.id.editOrientation);
+        incrZoomBtn = findViewById(R.id.incr_btn);
+        decrZoomBtn = findViewById(R.id.decr_btn);
     }
 
     void getOrientation(){
@@ -195,7 +191,7 @@ public class CompassActivity extends AppCompatActivity {
     void updateDisplay() {
         display.update(currentLocation, friendLocations, orientation);
         Map<String, Float> degreesForDisplay = display.modifyDegreesToLocations();
-        Map<String, Integer> distanceForDisplay = display.modifyDistanceToLocations(360, 4);
+        Map<String, Integer> distanceForDisplay = display.modifyDistanceToLocations(360, zoomLevel);
 
         ConstraintLayout.LayoutParams layoutParamsNorth = (ConstraintLayout.LayoutParams) northPoint.getLayoutParams();
         layoutParamsNorth.circleAngle = degreesForDisplay.get("north");
@@ -214,5 +210,15 @@ public class CompassActivity extends AppCompatActivity {
     public void OkbtnClicked(View view) {
         mockorientation.setOrientation(Float.parseFloat(orientationText.getText().toString()));
         updateDisplay();
+    }
+
+    public void onIncrZoomBtnClicked(View view) {
+        if (zoomLevel >= 4) return;
+        zoomLevel++;
+    }
+
+    public void onDecrZoomBtnClicked(View view) {
+        if (zoomLevel <= 1) return;
+        zoomLevel--;
     }
 }
