@@ -1,7 +1,7 @@
 # CSE 110 team 20
 
 
-## [Next Due: **MS 2 Delivery** Mar 8 11:55pm](https://canvas.ucsd.edu/courses/42716/assignments/567150)
+## [Next Due: **MS 2 Delivery**  Mar 16th Thursday by 11:55pm](https://canvas.ucsd.edu/courses/42716/assignments/567150)
 ### [Software design – 21 points](https://github.com/CSE-110-Winter-2023/cse-110-project-cse110-team-20/milestone/2)
 
 
