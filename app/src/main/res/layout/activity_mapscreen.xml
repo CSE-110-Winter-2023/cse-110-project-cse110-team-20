@@ -25,7 +25,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/rings4" />
+            app:srcCompat="@drawable/rings2_2" />
 
         <ImageView
             android:id="@+id/north_point"
@@ -85,6 +85,28 @@
             tools:ignore="MissingConstraints"
             tools:layout_editor_absoluteX="380dp"
             tools:layout_editor_absoluteY="380dp" />
+
+        <Button
+            android:id="@+id/plusButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:text="+"
+            android:onClick="PlusBtnClicked"
+            app:layout_constraintBottom_toTopOf="@+id/minusButton"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/compass_bg" />
+
+        <Button
+            android:id="@+id/minusButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:onClick="MinusBtnClicked"
+            android:text="-"
+            app:layout_constraintBottom_toBottomOf="@+id/compass_bg"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/compass_bg" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

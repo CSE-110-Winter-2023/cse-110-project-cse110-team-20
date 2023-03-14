@@ -20,6 +20,9 @@ import java.util.Map;
 
 public class CompassActivity extends AppCompatActivity {
 
+    private final String[] maps_old = {"rings2_1", "rings2_2", "rings2_3", "rings2_4"};
+    private int[] maps;
+
     SharedPreferences preferences;
     FriendListViewModel viewModel;
 
@@ -35,6 +38,7 @@ public class CompassActivity extends AppCompatActivity {
     private Orientation orientation;
 
     private Display display;
+    private int zoom = 1; // {0,1,2,3}
 
     Point currentLocation;
     List<Point> friendLocations;
@@ -62,6 +66,9 @@ public class CompassActivity extends AppCompatActivity {
         locationService = locationService.singleton(this);
         orientationService = orientationService.singleton(this);
 
+        maps = new int[] {R.drawable.rings2_1, R.drawable.rings2_2,
+                R.drawable.rings2_3, R.drawable.rings2_4};
+        updateZoom();
 
         preferences = getSharedPreferences("main", MODE_PRIVATE);
         int numPeople = preferences.getAll().size();
@@ -214,5 +221,32 @@ public class CompassActivity extends AppCompatActivity {
     public void OkbtnClicked(View view) {
         mockorientation.setOrientation(Float.parseFloat(orientationText.getText().toString()));
         updateDisplay();
+    }
+
+    public void PlusBtnClicked(View view) {
+        if (zoom != 3) {
+            incrementZoom();
+        }
+        updateDisplay();
+    }
+
+    public void MinusBtnClicked(View view) {
+        if (zoom != 0) {
+            decrementZoom();
+        }
+        updateDisplay();
+    }
+
+    private void incrementZoom() {
+        zoom++;
+        updateZoom();
+    }
+    private void decrementZoom() {
+        zoom--;
+        updateZoom();
+    }
+    private void updateZoom() {
+        ImageView compass = findViewById(R.id.compass_bg);
+        compass.setImageResource(maps[zoom]);
     }
 }
