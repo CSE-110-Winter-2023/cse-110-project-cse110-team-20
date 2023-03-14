@@ -40,42 +40,6 @@
             tools:layout_editor_absoluteY="380dp" />
 
         <ImageView
-            android:id="@+id/green_point"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            app:layout_constraintCircle="@+id/compass_bg"
-            app:layout_constraintCircleAngle="180"
-            app:layout_constraintCircleRadius="170dp"
-            app:srcCompat="@drawable/green_point"
-            tools:ignore="MissingConstraints"
-            tools:layout_editor_absoluteX="380dp"
-            tools:layout_editor_absoluteY="380dp" />
-
-        <ImageView
-            android:id="@+id/yellow_point"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            app:layout_constraintCircle="@+id/compass_bg"
-            app:layout_constraintCircleAngle="180"
-            app:layout_constraintCircleRadius="160dp"
-            app:srcCompat="@drawable/yellow_point"
-            tools:ignore="MissingConstraints"
-            tools:layout_editor_absoluteX="380dp"
-            tools:layout_editor_absoluteY="380dp" />
-
-        <ImageView
-            android:id="@+id/red_point"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            app:layout_constraintCircle="@+id/compass_bg"
-            app:layout_constraintCircleAngle="180"
-            app:layout_constraintCircleRadius="150dp"
-            app:srcCompat="@drawable/red_point"
-            tools:ignore="MissingConstraints"
-            tools:layout_editor_absoluteX="380dp"
-            tools:layout_editor_absoluteY="380dp" />
-
-        <ImageView
             android:id="@+id/center_point"
             android:layout_width="20dp"
             android:layout_height="20dp"
@@ -109,64 +73,6 @@
             app:layout_constraintStart_toEndOf="@+id/compass_bg" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <LinearLayout
-        android:layout_width="400dp"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Compass"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="5dp">
-
-        <ImageView
-            android:id="@+id/red_point_legend"
-            android:layout_width="match_parent"
-            android:layout_height="20dp"
-            app:srcCompat="@drawable/red_point"
-            tools:layout_editor_absoluteX="380dp"
-            tools:layout_editor_absoluteY="380dp" />
-
-        <TextView
-            android:id="@+id/red_label_legend"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="32dp"
-            android:text="Location 1"
-            android:textAlignment="center" />
-
-        <ImageView
-            android:id="@+id/yellow_point_legend"
-            android:layout_width="match_parent"
-            android:layout_height="20dp"
-            app:srcCompat="@drawable/yellow_point"
-            tools:layout_editor_absoluteX="380dp"
-            tools:layout_editor_absoluteY="380dp" />
-
-        <TextView
-            android:id="@+id/yellow_label_legend"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="32dp"
-            android:text="Location 2"
-            android:textAlignment="center" />
-
-        <ImageView
-            android:id="@+id/green_point_legend"
-            android:layout_width="match_parent"
-            android:layout_height="20dp"
-            app:srcCompat="@drawable/green_point"
-            tools:layout_editor_absoluteX="380dp"
-            tools:layout_editor_absoluteY="380dp" />
-
-        <TextView
-            android:id="@+id/green_label_legend"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="32dp"
-            android:text="Location 3"
-            android:textAlignment="center" />
-    </LinearLayout>
 
     <EditText
         android:id="@+id/editOrientation"
