@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -57,7 +58,6 @@ public class CompassActivity extends AppCompatActivity {
 
     List<ImageView> compassCircles;
 
-    private Button incrZoomBtn, decrZoomBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,9 +65,6 @@ public class CompassActivity extends AppCompatActivity {
         setContentView(R.layout.activity_mapscreen);
 
         wireWidgets();
-
-        initializeCompassCircles();
-        updateCompassCircles(zoomLevel);
 
         locationService = locationService.singleton(this);
         orientationService = orientationService.singleton(this);
@@ -106,9 +103,13 @@ public class CompassActivity extends AppCompatActivity {
         for (int i = 1; i < numPeople; i++) {
             friendLocations.add(new Point());
         }
-        display = new Display(mockorientation,  new Compass(currentLocation, friendLocations));
+        display = new Display(mockorientation, new Compass(currentLocation, friendLocations));
+
+        initializeCompassCircles();
+        updateCompassCircles(zoomLevel);
 
         initializeLocationMarkerWidgets();
+
 
         prevTime = 0;
         locationService.getLocation().observe(this, loc->{
@@ -124,9 +125,22 @@ public class CompassActivity extends AppCompatActivity {
             device_orientation = (Float)orient;
             orientation.setOrientationFromRadians(device_orientation);
             orientation.setOrientation(orientation.getOrientationInDegrees() + mockorientation.getOrientationInDegrees());
-            Log.d("testing", "" + orientation.getOrientationInDegrees());
+            // Log.d("testing", "" + orientation.getOrientationInDegrees());
             updateDisplay();
         });
+    }
+
+    @Override
+    protected void onPause(){
+        super.onPause();
+        //unregister orientationservice
+        orientationService.unregisterSensorListeners();
+    }
+
+
+    void wireWidgets() {
+        northPoint = (ImageView) findViewById(R.id.north_point);
+        orientationText = findViewById(R.id.editOrientation);
     }
 
     private FriendListViewModel setupViewModel() {
@@ -139,6 +153,8 @@ public class CompassActivity extends AppCompatActivity {
             textView.setId(View.generateViewId());
             textView.setText(friendLocations.get(i).getLabel());
             textView.setTextSize(DEFAULT_TEXT_SIZE);
+            textView.setMaxLines(1);
+            textView.setEllipsize(TextUtils.TruncateAt.END);
             friendLocationMarkers.add(textView);
         }
 
@@ -167,7 +183,7 @@ public class CompassActivity extends AppCompatActivity {
         for (int i = 0; i < MAX_ZOOM_LEVEL; i++) {
             ImageView circle = new ImageView(this);
             circle.setId(View.generateViewId());
-            circle.setImageResource(R.drawable.circle_transparent);
+            circle.setImageResource(R.drawable.outline_circle);
             ConstraintLayout layout = findViewById(R.id.Compass);
             layout.addView(circle);
             // Get the ConstraintSet for the layout
@@ -204,28 +220,13 @@ public class CompassActivity extends AppCompatActivity {
         }
     }
 
-    @Override
-    protected void onPause(){
-        super.onPause();
-        //unregister orientationservice
-        orientationService.unregisterSensorListeners();
-    }
-
-
-    void wireWidgets() {
-        northPoint = (ImageView) findViewById(R.id.north_point);
-        orientationText = findViewById(R.id.editOrientation);
-        incrZoomBtn = findViewById(R.id.incr_btn);
-        decrZoomBtn = findViewById(R.id.decr_btn);
-    }
-
     void getOrientation(){
         Bundle extras = getIntent().getExtras();
 
         if (extras != null) {
             mockorientation = new Orientation(extras.getFloat("orientation"));
         } else {
-            mockorientation= new Orientation();
+            mockorientation = new Orientation();
         }
 
         orientation = new Orientation(device_orientation);
@@ -240,8 +241,6 @@ public class CompassActivity extends AppCompatActivity {
         layoutParamsNorth.circleAngle = degreesForDisplay.get("north");
         layoutParamsNorth.circleRadius = 375;
         northPoint.setLayoutParams(layoutParamsNorth);
-
-        Log.d("Display Test", distanceForDisplay.toString());
 
         for (int i = 0; i < friendLocations.size(); i++) {
             if (distanceForDisplay.get(friendLocations.get(i).getLabel()) < MAX_RADIUS) {
