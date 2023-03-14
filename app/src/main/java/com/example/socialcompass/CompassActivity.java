@@ -58,7 +58,6 @@ public class CompassActivity extends AppCompatActivity {
 
         locationService = locationService.singleton(this);
         orientationService = orientationService.singleton(this);
-
         preferences = getSharedPreferences("main", MODE_PRIVATE);
         int numPeople = preferences.getAll().size();
 
