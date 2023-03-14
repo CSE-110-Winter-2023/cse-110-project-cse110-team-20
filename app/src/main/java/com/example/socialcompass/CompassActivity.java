@@ -10,7 +10,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -19,9 +18,7 @@ import java.util.List;
 import java.util.Map;
 
 public class CompassActivity extends AppCompatActivity {
-
-    private final String[] maps_old = {"rings2_1", "rings2_2", "rings2_3", "rings2_4"};
-    private int[] maps;
+    private int[] mapImages; // store map images
 
     SharedPreferences preferences;
     FriendListViewModel viewModel;
@@ -34,7 +31,7 @@ public class CompassActivity extends AppCompatActivity {
     private Person user;
 
     private OrientationService orientationService;
-    public static Float device_orientation =0f;
+    public static Float device_orientation = 0f;
     private Orientation orientation;
 
     private Display display;
@@ -66,10 +63,6 @@ public class CompassActivity extends AppCompatActivity {
         locationService = locationService.singleton(this);
         orientationService = orientationService.singleton(this);
 
-        maps = new int[] {R.drawable.rings2_1, R.drawable.rings2_2,
-                R.drawable.rings2_3, R.drawable.rings2_4};
-        updateZoom();
-
         preferences = getSharedPreferences("main", MODE_PRIVATE);
         int numPeople = preferences.getAll().size();
 
@@ -94,7 +87,6 @@ public class CompassActivity extends AppCompatActivity {
 
         user = new Person("", userUID, 0,0);
 
-
         getOrientation();
 
         currentLocation = new Point();
@@ -106,6 +98,8 @@ public class CompassActivity extends AppCompatActivity {
         display = new Display(mockorientation,  new Compass(currentLocation, friendLocations));
 
         initializeLocationMarkerWidgets();
+
+        updateZoom();
 
         prevTime = 0;
         locationService.getLocation().observe(this, loc->{
@@ -185,6 +179,8 @@ public class CompassActivity extends AppCompatActivity {
         greenPoint = (ImageView) findViewById(R.id.green_point);
         northPoint = (ImageView) findViewById(R.id.north_point);
         orientationText = findViewById(R.id.editOrientation);
+        mapImages = new int[] {R.drawable.rings2_1, R.drawable.rings2_2,
+                R.drawable.rings2_3, R.drawable.rings2_4};
     }
 
     void getOrientation(){
@@ -247,6 +243,6 @@ public class CompassActivity extends AppCompatActivity {
     }
     private void updateZoom() {
         ImageView compass = findViewById(R.id.compass_bg);
-        compass.setImageResource(maps[zoom]);
+        compass.setImageResource(mapImages[zoom]);
     }
 }
