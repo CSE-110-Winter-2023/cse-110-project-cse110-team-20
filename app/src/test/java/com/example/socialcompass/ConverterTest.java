@@ -198,6 +198,16 @@ public class ConverterTest {
     }
 
     @Test
+    public void testDistToRadius2() {
+        int circleRadius = 100;
+        // test edge cases for radius
+        assertEquals(0, Converter.distanceToMapRadius(0f, circleRadius, 2));
+        assertEquals(50, Converter.distanceToMapRadius(1f, circleRadius, 2));
+        assertEquals(75, Converter.distanceToMapRadius(5.5f, circleRadius, 2));
+        assertEquals(100, Converter.distanceToMapRadius(250f, circleRadius, 2));
+    }
+
+    @Test
     public void testPointToRadius() {
         int circleRadius = 100;
         int circleZoom = 4;
