@@ -101,7 +101,7 @@ public class Converter {
             return circleRadius;
         }
         int ringSize = circleRadius / circleZoom;
-        return ringSize*bracket + (int) (ringSize * distanceToBracketProp(distanceMiles, bracket, circleZoom));
+        return ringSize*bracket + (int) (ringSize * distanceToBracketProp(distanceMiles, bracket));
     }
 
     /*
@@ -121,8 +121,7 @@ public class Converter {
      * helper method, returns percentage distance within a bracket
      * possible feature creep: dynamically adjust fifth bracket distance depending on largest dist
      */
-    public static float distanceToBracketProp(float distanceMiles, int bracket, int zoomLevel) {
-        if (bracket >= zoomLevel) return 0;
+    public static float distanceToBracketProp(float distanceMiles, int bracket) {
         final float[] brackets = {0, 1, 10, 500, 12500}; // earth has circum. of 25000
         return (distanceMiles - brackets[bracket]) / (brackets[bracket+1] - brackets[bracket]);
     }
