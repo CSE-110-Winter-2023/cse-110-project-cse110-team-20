@@ -19,7 +19,7 @@ import java.util.Map;
 
 public class CompassActivity extends AppCompatActivity {
 
-    private final int mapRadius = 360;
+    private final int MAP_RADIUS = 360;
     private int[] mapImages; // store map images
 
     SharedPreferences preferences;
@@ -200,7 +200,7 @@ public class CompassActivity extends AppCompatActivity {
     void updateDisplay() {
         display.update(currentLocation, friendLocations, orientation);
         Map<String, Float> degreesForDisplay = display.modifyDegreesToLocations();
-        Map<String, Integer> distanceForDisplay = display.modifyDistanceToLocations(mapRadius, zoom);
+        Map<String, Integer> distanceForDisplay = display.modifyDistanceToLocations(MAP_RADIUS, zoom+1);
 
         ConstraintLayout.LayoutParams layoutParamsNorth = (ConstraintLayout.LayoutParams) northPoint.getLayoutParams();
         layoutParamsNorth.circleAngle = degreesForDisplay.get("north");
