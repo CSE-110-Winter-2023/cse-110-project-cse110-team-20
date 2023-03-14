@@ -46,13 +46,7 @@ public class CompassActivity extends AppCompatActivity {
 
     Orientation mockorientation;
 
-    private TextView redLegendText;
-    private TextView yellowLegendText;
-    private TextView greenLegendText;
     private TextView orientationText;
-    private ImageView redPoint;
-    private ImageView yellowPoint;
-    private ImageView greenPoint;
     private ImageView northPoint;
 
     @Override
@@ -173,12 +167,6 @@ public class CompassActivity extends AppCompatActivity {
 
 
     void wireWidgets() {
-        redLegendText = (TextView) findViewById(R.id.red_label_legend);
-        yellowLegendText = (TextView) findViewById(R.id.yellow_label_legend);
-        greenLegendText = (TextView) findViewById(R.id.green_label_legend);
-        redPoint = (ImageView) findViewById(R.id.red_point);
-        yellowPoint = (ImageView) findViewById(R.id.yellow_point);
-        greenPoint = (ImageView) findViewById(R.id.green_point);
         northPoint = (ImageView) findViewById(R.id.north_point);
         orientationText = findViewById(R.id.editOrientation);
         mapImages = new int[] {R.drawable.rings2_1, R.drawable.rings2_2,
