@@ -97,7 +97,7 @@ public class Converter {
      */
     public static int distanceToMapRadius(float distanceMiles, int circleRadius, int circleZoom) {
         int bracket = distanceToMapBracket(distanceMiles);
-        if (bracket > circleZoom) {
+        if (bracket + 1 > circleZoom) {
             return circleRadius;
         }
         int ringSize = circleRadius / circleZoom;

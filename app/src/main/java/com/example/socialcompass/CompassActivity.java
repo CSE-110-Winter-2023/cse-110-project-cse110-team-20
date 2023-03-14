@@ -27,7 +27,9 @@ public class CompassActivity extends AppCompatActivity {
     private int zoomLevel = 2; // technically number of circles
     private int MAX_ZOOM_LEVEL = 4;
 
-    private int MAX_RADIUS = 400;
+    private int MAX_RADIUS = 408;   // divisible by 2, 3, and 4
+
+    private int DEFAULT_TEXT_SIZE = 14;
 
     private LocationService locationService;
 
@@ -136,6 +138,7 @@ public class CompassActivity extends AppCompatActivity {
             TextView textView = new TextView(this);
             textView.setId(View.generateViewId());
             textView.setText(friendLocations.get(i).getLabel());
+            textView.setTextSize(DEFAULT_TEXT_SIZE);
             friendLocationMarkers.add(textView);
         }
 
@@ -241,7 +244,14 @@ public class CompassActivity extends AppCompatActivity {
         Log.d("Display Test", distanceForDisplay.toString());
 
         for (int i = 0; i < friendLocations.size(); i++) {
-            friendLocationMarkers.get(i).setText(friendLocations.get(i).getLabel());
+            if (distanceForDisplay.get(friendLocations.get(i).getLabel()) < MAX_RADIUS) {
+                // Not on outer edge
+                friendLocationMarkers.get(i).setTextSize(DEFAULT_TEXT_SIZE);
+                friendLocationMarkers.get(i).setText(friendLocations.get(i).getLabel());
+            } else {
+                friendLocationMarkers.get(i).setTextSize(30);
+                friendLocationMarkers.get(i).setText("●");
+            }
             ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams) friendLocationMarkers.get(i).getLayoutParams();
             layoutParams.circleAngle = degreesForDisplay.get(friendLocations.get(i).getLabel());
             layoutParams.circleRadius = distanceForDisplay.get(friendLocations.get(i).getLabel());
