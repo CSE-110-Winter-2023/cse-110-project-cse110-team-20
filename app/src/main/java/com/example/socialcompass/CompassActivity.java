@@ -8,9 +8,11 @@ import androidx.lifecycle.ViewModelProvider;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -22,6 +24,13 @@ public class CompassActivity extends AppCompatActivity {
 
     SharedPreferences preferences;
     FriendListViewModel viewModel;
+
+    private int zoomLevel = 2; // technically number of circles
+    private int MAX_ZOOM_LEVEL = 4;
+
+    private int MAX_RADIUS = 408;   // divisible by 2, 3, and 4
+
+    private int DEFAULT_TEXT_SIZE = 14;
 
     private LocationService locationService;
 
@@ -43,14 +52,12 @@ public class CompassActivity extends AppCompatActivity {
 
     Orientation mockorientation;
 
-    private TextView redLegendText;
-    private TextView yellowLegendText;
-    private TextView greenLegendText;
     private TextView orientationText;
-    private ImageView redPoint;
-    private ImageView yellowPoint;
-    private ImageView greenPoint;
+
     private ImageView northPoint;
+
+    List<ImageView> compassCircles;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,7 +71,7 @@ public class CompassActivity extends AppCompatActivity {
 
 
         preferences = getSharedPreferences("main", MODE_PRIVATE);
-        int numPeople = preferences.getAll().size();
+        int numPeople = preferences.getAll().size() - 1;
 
         String userUID = preferences.getString("0", "default_if_not_found");
         String[] friendsUID = new String[numPeople - 1];
@@ -85,8 +92,8 @@ public class CompassActivity extends AppCompatActivity {
 
         Log.d("Compass Test", userUID);
 
-        user = new Person("", userUID, 0,0);
-
+        String userName = preferences.getString("name", "");
+        user = new Person(userName, userUID, 0,0);
 
         getOrientation();
 
@@ -96,9 +103,13 @@ public class CompassActivity extends AppCompatActivity {
         for (int i = 1; i < numPeople; i++) {
             friendLocations.add(new Point());
         }
-        display = new Display(mockorientation,  new Compass(currentLocation, friendLocations));
+        display = new Display(mockorientation, new Compass(currentLocation, friendLocations));
+
+        initializeCompassCircles();
+        updateCompassCircles(zoomLevel);
 
         initializeLocationMarkerWidgets();
+
 
         prevTime = 0;
         locationService.getLocation().observe(this, loc->{
@@ -114,51 +125,9 @@ public class CompassActivity extends AppCompatActivity {
             device_orientation = (Float)orient;
             orientation.setOrientationFromRadians(device_orientation);
             orientation.setOrientation(orientation.getOrientationInDegrees() + mockorientation.getOrientationInDegrees());
-            Log.d("testing", "" + orientation.getOrientationInDegrees());
+            // Log.d("testing", "" + orientation.getOrientationInDegrees());
             updateDisplay();
         });
-    }
-
-    private FriendListViewModel setupViewModel() {
-        return new ViewModelProvider(this).get(FriendListViewModel.class);
-    }
-
-    protected void initializeLocationMarkerWidgets() {
-        /*
-        app:layout_constraintCircle="@+id/compass_bg"
-            app:layout_constraintCircleAngle="180"
-            app:layout_constraintCircleRadius="150dp"
-         */
-        for (int i = 0; i < friendLocations.size(); i++) {
-            TextView textView = new TextView(this);
-            textView.setId(View.generateViewId());
-            textView.setText(friendLocations.get(i).getLabel());
-            friendLocationMarkers.add(textView);
-        }
-
-//        ConstraintLayout.LayoutParams layoutParams = new ConstraintLayout.LayoutParams(
-//                ConstraintLayout.LayoutParams.WRAP_CONTENT,
-//                ConstraintLayout.LayoutParams.WRAP_CONTENT
-//        );
-
-        // Add the TextView widget to the activity's layout
-        ConstraintLayout layout = findViewById(R.id.Compass);
-        for (int i = 0; i < friendLocations.size(); i++) {
-            layout.addView(friendLocationMarkers.get(i));
-
-// Get the ConstraintSet for the layout
-            ConstraintSet constraintSet = new ConstraintSet();
-            constraintSet.clone(layout);
-
-// Set the circle constraint for the TextView
-            constraintSet.connect(friendLocationMarkers.get(i).getId(), ConstraintSet.BOTTOM, layout.getId(), ConstraintSet.BOTTOM);
-            constraintSet.connect(friendLocationMarkers.get(i).getId(), ConstraintSet.START, layout.getId(), ConstraintSet.START);
-            constraintSet.connect(friendLocationMarkers.get(i).getId(), ConstraintSet.END, layout.getId(), ConstraintSet.END);
-            constraintSet.constrainCircle(friendLocationMarkers.get(i).getId(), layout.getId(), 300, i * 30);
-
-// Apply the constraints to the layout
-            constraintSet.applyTo(layout);
-        }
     }
 
     @Override
@@ -170,14 +139,85 @@ public class CompassActivity extends AppCompatActivity {
 
 
     void wireWidgets() {
-        redLegendText = (TextView) findViewById(R.id.red_label_legend);
-        yellowLegendText = (TextView) findViewById(R.id.yellow_label_legend);
-        greenLegendText = (TextView) findViewById(R.id.green_label_legend);
-        redPoint = (ImageView) findViewById(R.id.red_point);
-        yellowPoint = (ImageView) findViewById(R.id.yellow_point);
-        greenPoint = (ImageView) findViewById(R.id.green_point);
         northPoint = (ImageView) findViewById(R.id.north_point);
         orientationText = findViewById(R.id.editOrientation);
+    }
+
+    private FriendListViewModel setupViewModel() {
+        return new ViewModelProvider(this).get(FriendListViewModel.class);
+    }
+
+    protected void initializeLocationMarkerWidgets() {
+        for (int i = 0; i < friendLocations.size(); i++) {
+            TextView textView = new TextView(this);
+            textView.setId(View.generateViewId());
+            textView.setText(friendLocations.get(i).getLabel());
+            textView.setTextSize(DEFAULT_TEXT_SIZE);
+            textView.setMaxLines(1);
+            textView.setEllipsize(TextUtils.TruncateAt.END);
+            friendLocationMarkers.add(textView);
+        }
+
+        // Add the TextView widget to the activity's layout
+        ConstraintLayout layout = findViewById(R.id.Compass);
+        for (int i = 0; i < friendLocations.size(); i++) {
+            layout.addView(friendLocationMarkers.get(i));
+
+            // Get the ConstraintSet for the layout
+            ConstraintSet constraintSet = new ConstraintSet();
+            constraintSet.clone(layout);
+
+            // Set the circle constraint for the TextView
+            constraintSet.connect(friendLocationMarkers.get(i).getId(), ConstraintSet.BOTTOM, layout.getId(), ConstraintSet.BOTTOM);
+            constraintSet.connect(friendLocationMarkers.get(i).getId(), ConstraintSet.START, layout.getId(), ConstraintSet.START);
+            constraintSet.connect(friendLocationMarkers.get(i).getId(), ConstraintSet.END, layout.getId(), ConstraintSet.END);
+            constraintSet.constrainCircle(friendLocationMarkers.get(i).getId(), layout.getId(), 300, i * 30);
+
+            // Apply the constraints to the layout
+            constraintSet.applyTo(layout);
+        }
+    }
+
+    protected void initializeCompassCircles() {
+        compassCircles = new ArrayList<>();
+        for (int i = 0; i < MAX_ZOOM_LEVEL; i++) {
+            ImageView circle = new ImageView(this);
+            circle.setId(View.generateViewId());
+            circle.setImageResource(R.drawable.outline_circle);
+            ConstraintLayout layout = findViewById(R.id.Compass);
+            layout.addView(circle);
+            // Get the ConstraintSet for the layout
+            ConstraintSet constraintSet = new ConstraintSet();
+            constraintSet.clone(layout);
+
+            // Set the circle constraint for the TextView
+            constraintSet.connect(circle.getId(), ConstraintSet.BOTTOM, layout.getId(), ConstraintSet.BOTTOM);
+            constraintSet.connect(circle.getId(), ConstraintSet.START, layout.getId(), ConstraintSet.START);
+            constraintSet.connect(circle.getId(), ConstraintSet.END, layout.getId(), ConstraintSet.END);
+            constraintSet.constrainCircle(circle.getId(), layout.getId(), 0, 0);
+
+            // Apply the constraints to the layout
+            constraintSet.applyTo(layout);
+
+            compassCircles.add(circle);
+        }
+    }
+
+
+
+    protected void updateCompassCircles(int zoomLevel) {
+        for (int i = 0; i < MAX_ZOOM_LEVEL; i++) {
+            compassCircles.get(i).setVisibility(View.INVISIBLE);
+        }
+
+        for (int i = 1; i <= zoomLevel; i++) {
+            int radius = MAX_RADIUS * i / zoomLevel;
+            compassCircles.get(i - 1).setVisibility(View.VISIBLE);
+            ViewGroup.LayoutParams params = compassCircles.get(i - 1).getLayoutParams();
+            params.width = radius * 2;
+            params.height = radius * 2;
+            compassCircles.get(i - 1).setLayoutParams(params);
+        }
     }
 
     void getOrientation(){
@@ -186,7 +226,7 @@ public class CompassActivity extends AppCompatActivity {
         if (extras != null) {
             mockorientation = new Orientation(extras.getFloat("orientation"));
         } else {
-            mockorientation= new Orientation();
+            mockorientation = new Orientation();
         }
 
         orientation = new Orientation(device_orientation);
@@ -195,7 +235,7 @@ public class CompassActivity extends AppCompatActivity {
     void updateDisplay() {
         display.update(currentLocation, friendLocations, orientation);
         Map<String, Float> degreesForDisplay = display.modifyDegreesToLocations();
-        Map<String, Integer> distanceForDisplay = display.modifyDistanceToLocations(360, 4);
+        Map<String, Integer> distanceForDisplay = display.modifyDistanceToLocations(MAX_RADIUS, zoomLevel);
 
         ConstraintLayout.LayoutParams layoutParamsNorth = (ConstraintLayout.LayoutParams) northPoint.getLayoutParams();
         layoutParamsNorth.circleAngle = degreesForDisplay.get("north");
@@ -203,7 +243,14 @@ public class CompassActivity extends AppCompatActivity {
         northPoint.setLayoutParams(layoutParamsNorth);
 
         for (int i = 0; i < friendLocations.size(); i++) {
-            friendLocationMarkers.get(i).setText(friendLocations.get(i).getLabel());
+            if (distanceForDisplay.get(friendLocations.get(i).getLabel()) < MAX_RADIUS) {
+                // Not on outer edge
+                friendLocationMarkers.get(i).setTextSize(DEFAULT_TEXT_SIZE);
+                friendLocationMarkers.get(i).setText(friendLocations.get(i).getLabel());
+            } else {
+                friendLocationMarkers.get(i).setTextSize(30);
+                friendLocationMarkers.get(i).setText("●");
+            }
             ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams) friendLocationMarkers.get(i).getLayoutParams();
             layoutParams.circleAngle = degreesForDisplay.get(friendLocations.get(i).getLabel());
             layoutParams.circleRadius = distanceForDisplay.get(friendLocations.get(i).getLabel());
@@ -214,5 +261,17 @@ public class CompassActivity extends AppCompatActivity {
     public void OkbtnClicked(View view) {
         mockorientation.setOrientation(Float.parseFloat(orientationText.getText().toString()));
         updateDisplay();
+    }
+
+    public void onIncrZoomBtnClicked(View view) {
+        if (zoomLevel >= 4) return;
+        zoomLevel++;
+        updateCompassCircles(zoomLevel);
+    }
+
+    public void onDecrZoomBtnClicked(View view) {
+        if (zoomLevel <= 1) return;
+        zoomLevel--;
+        updateCompassCircles(zoomLevel);
     }
 }

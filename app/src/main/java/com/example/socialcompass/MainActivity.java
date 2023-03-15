@@ -65,6 +65,12 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    public void saveUsername() {
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString("name", name.getText().toString());
+        editor.apply();
+    }
+
 //    private void goToMapScreen() {
 //        String[][] ans = returnPreferences();
 //        Intent intent = new Intent(this, Mapscreen.class);
@@ -80,6 +86,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onClickOK(View view) {
+        saveUsername();
         Intent intent = new Intent(this, DisplayUIDActivity.class);
         intent.putExtra("name", name.getText().toString());
         intent.putExtra("lat", currentLocation.getLatitude());
