@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.content.SharedPreferences;
@@ -27,6 +28,7 @@ public class CompassActivity extends AppCompatActivity {
 
     private LiveData<List<Person>> people;
 
+    private LiveData<Integer> disconnect_time;
     private long prevTime;
     private Person user;
 
@@ -43,6 +45,8 @@ public class CompassActivity extends AppCompatActivity {
 
     Orientation mockorientation;
 
+    private LocationStatus locationStatus;
+
     private TextView redLegendText;
     private TextView yellowLegendText;
     private TextView greenLegendText;
@@ -51,6 +55,10 @@ public class CompassActivity extends AppCompatActivity {
     private ImageView yellowPoint;
     private ImageView greenPoint;
     private ImageView northPoint;
+
+    //TODO: add this for US4 stuff MS2
+    private ImageView gps_status;
+    private TextView time_since_disconnect;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,7 +108,22 @@ public class CompassActivity extends AppCompatActivity {
 
         initializeLocationMarkerWidgets();
 
+        //TODO: make class that runs a scheduled executor for whether location is enabled
+        locationStatus = new LocationStatus(locationService);
+        disconnect_time = new MutableLiveData<Integer>();
+        //ans.addSource(fromRemote, ans::postValue);
+        locationStatus.checkLocationStatus().observe(this, status->{
+            if(!status){//it is disconnected here
+                //TODO: add code to change compassactivity and timer's text
+
+            } else{//it reconnected, set the timer back to 0
+
+            }
+        });
+        //insert code
+
         prevTime = 0;
+
         locationService.getLocation().observe(this, loc->{
             if (System.currentTimeMillis() - prevTime > 5000) {
                 currentLocation.setLocation(loc.first.floatValue(), loc.second.floatValue());
@@ -178,6 +201,8 @@ public class CompassActivity extends AppCompatActivity {
         greenPoint = (ImageView) findViewById(R.id.green_point);
         northPoint = (ImageView) findViewById(R.id.north_point);
         orientationText = findViewById(R.id.editOrientation);
+        gps_status = findViewById(R.id.connectionstatus);
+        time_since_disconnect = findViewById(R.id.DC_timer);
     }
 
     void getOrientation(){
