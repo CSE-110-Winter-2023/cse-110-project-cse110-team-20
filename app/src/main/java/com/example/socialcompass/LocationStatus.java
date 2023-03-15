@@ -19,7 +19,7 @@ public class LocationStatus {
     public LiveData<Boolean> checkLocationStatus() {
         MutableLiveData<Boolean> ans = new MutableLiveData<>();
         ScheduledFuture<?> clockFuture = executor.scheduleAtFixedRate(() -> {
-                ans.postValue(locationService.GPS_Enabled());
+                ans.setValue(locationService.GPS_Enabled());
                 }, 0, 5000, TimeUnit.MILLISECONDS);
         return ans;
     }
