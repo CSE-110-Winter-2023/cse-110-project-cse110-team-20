@@ -1,6 +1,8 @@
-package com.example.socialcompass;
+package com.example.socialcompass.Utils;
 
 import android.util.Log;
+
+import com.example.socialcompass.Models.Person;
 
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;

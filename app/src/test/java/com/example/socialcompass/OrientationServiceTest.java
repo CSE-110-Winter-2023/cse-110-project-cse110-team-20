@@ -17,6 +17,9 @@ import androidx.test.core.app.ActivityScenario;
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.platform.app.InstrumentationRegistry;
 
+import com.example.socialcompass.Activities.TestActivity;
+import com.example.socialcompass.Services.OrientationService;
+
 @RunWith(RobolectricTestRunner.class)
 public class OrientationServiceTest {
     private static float delta = 0.001f; // tolerance for float equality

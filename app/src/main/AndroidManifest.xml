@@ -16,23 +16,22 @@
         android:theme="@style/Theme.SocialCompass"
         tools:targetApi="31">
         <activity
-            android:name=".TestActivity"
+            android:name=".Activities.TestActivity"
             android:exported="false" />
         <activity
-            android:name=".AddFriendsActivity"
+            android:name=".Activities.AddFriendsActivity"
             android:exported="false" />
         <activity
-            android:name=".DisplayUIDActivity"
+            android:name=".Activities.DisplayUIDActivity"
             android:exported="false" />
         <activity
-            android:name=".CompassActivity"
+            android:name=".Activities.CompassActivity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".Activities.NameActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
