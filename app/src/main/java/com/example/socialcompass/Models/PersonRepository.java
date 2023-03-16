@@ -1,4 +1,4 @@
-package com.example.socialcompass;
+package com.example.socialcompass.Models;
 
 import android.util.Log;
 
@@ -6,6 +6,8 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
+
+import com.example.socialcompass.Utils.LocationAPI;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,34 +29,7 @@ public class PersonRepository {
         this.scheduler = Executors.newSingleThreadScheduledExecutor();
     }
 
-    // Synced Methods
-    // ==============
-
-//    public LiveData<Note> getSynced(String title) {
-//        var note = new MediatorLiveData<Note>();
-//
-//        Observer<Note> updateFromRemote = theirNote -> {
-//            var ourNote = note.getValue();
-//            if (ourNote == null || ourNote.updatedAt < theirNote.updatedAt) {
-//                upsertLocal(theirNote);
-//            }
-//        };
-//
-//        // If we get a local update, pass it on.
-//        note.addSource(getLocal(title), note::postValue);
-//        // If we get a remote update, update the local version (triggering the above observer)
-//        note.addSource(getRemote(title), updateFromRemote);
-//
-//        return note;
-//    }
-//
-//    public void upsertSynced(Note note) {
-//        // upsertLocal(note);
-//        upsertRemote(note);
-//    }
-
     // Local Methods
-    // =============
 
     public LiveData<Person> getLocal(String uid) {
         return dao.get(uid);
@@ -77,7 +52,6 @@ public class PersonRepository {
     }
 
     // Remote Methods
-    // ==============
 
     public LiveData<List<Person>> getRemote(String[] title) {
         MutableLiveData<List<Person>> liveData = new MutableLiveData<>();

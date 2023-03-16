@@ -6,10 +6,10 @@ import androidx.lifecycle.MutableLiveData;
 public class Orientation implements IOrientation {
     private MutableLiveData<Float> orientation;
 
-    Orientation() {
+    public Orientation() {
         this(0.0f);
     }
-    Orientation(float f) {
+    public Orientation(float f) {
         orientation = new MutableLiveData<Float>();
         setOrientation(f);
     }

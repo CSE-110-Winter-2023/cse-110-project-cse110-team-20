@@ -1,9 +1,8 @@
-package com.example.socialcompass;
+package com.example.socialcompass.Activities;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.VisibleForTesting;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -15,8 +14,13 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
+
+import com.example.socialcompass.Activities.CompassActivity;
+import com.example.socialcompass.Adapters.FriendListAdapter;
+import com.example.socialcompass.Models.Person;
+import com.example.socialcompass.R;
+import com.example.socialcompass.ViewModels.FriendListViewModel;
 
 import java.util.List;
 

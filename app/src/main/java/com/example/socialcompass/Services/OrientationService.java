@@ -1,4 +1,4 @@
-package com.example.socialcompass;
+package com.example.socialcompass.Services;
 
 import android.app.Activity;
 import android.content.Context;
@@ -9,6 +9,8 @@ import android.hardware.SensorManager;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+
+import com.example.socialcompass.IOrientation;
 
 // OrientationService taken from Demo 5
 public class OrientationService implements SensorEventListener, IOrientation {
