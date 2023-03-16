@@ -50,7 +50,7 @@ public class CompassBg {
         update(initZoomLevel);
     }
 
-    protected List<ImageView> getCircleViews() {
+    public List<ImageView> getCircleViews() {
         return compassCircles;
     }
 
