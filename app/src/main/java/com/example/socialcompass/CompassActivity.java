@@ -16,6 +16,11 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.socialcompass.Models.Person;
+import com.example.socialcompass.Services.LocationService;
+import com.example.socialcompass.Services.OrientationService;
+import com.example.socialcompass.ViewModels.FriendListViewModel;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
