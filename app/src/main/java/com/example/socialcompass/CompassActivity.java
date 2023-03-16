@@ -30,8 +30,6 @@ public class CompassActivity extends AppCompatActivity {
     private LocationService locationService;
 
     private LiveData<List<Person>> people;
-
-    public LiveData<Integer> disconnect_time;//livedata for the timer since dc?
     private long prevTime;
     private Person user;
 
@@ -112,19 +110,25 @@ public class CompassActivity extends AppCompatActivity {
         initializeLocationMarkerWidgets();
 
         //TODO: make class that runs a scheduled executor for whether location is enabled
-
-        disconnect_time = new MutableLiveData<Integer>();//unsure how to do this, check lab 5 maybe
-        locationStatus.checkLocationStatus().observe(this, status->{
+        locationStatus.registerLocationStatus();
+        locationStatus.getLocationStatus().observe(this, status->{
             if(status){//it is connected here
                 //TODO: add code to change compassactivity and timer's text
-                Log.i("L_STATUS", "inside if connected");
+                Log.d("L_STATUS", "inside if connected");
                 gps_status.setColorFilter(GREEN);//change the filter of the imageview so its red??
             } else{//it disconnected, set the disconnect timer to locationstatus get dctime
                 gps_status.setColorFilter(RED);
-                Log.i("L_STATUS", "inside if disconnected");
+                Log.d("L_STATUS", "inside if disconnected");
             }
-            //disconnect_time.setValue(locationStatus.getDCtime());
-            //time_since_disconnect.setText(disconnect_time.getValue()); //tentative time in seconds
+        });
+        locationStatus.getDCtime().observe(this, time_passed->{
+            //difference in current time and last time it postvalue
+            long diff = Math.max((System.currentTimeMillis() / 1000) - time_passed, 0);
+            if(diff >= 60){
+                time_since_disconnect.setText(diff/60 + "m " + diff%60 + "s");
+            } else{
+                time_since_disconnect.setText(diff + "s"); //tentative time in seconds
+            }
         });
         //insert code
 
@@ -143,7 +147,7 @@ public class CompassActivity extends AppCompatActivity {
             device_orientation = (Float)orient;
             orientation.setOrientationFromRadians(device_orientation);
             orientation.setOrientation(orientation.getOrientationInDegrees() + mockorientation.getOrientationInDegrees());
-            Log.d("testing", "" + orientation.getOrientationInDegrees());
+            //Log.d("testing", "" + orientation.getOrientationInDegrees());
             updateDisplay();
         });
     }

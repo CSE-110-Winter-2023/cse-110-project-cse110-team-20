@@ -19,7 +19,7 @@ public class LocationStatus {
     private final ScheduledExecutorService executor;
     private final LocationManager locationManager;
     private MutableLiveData<Boolean> currentStatus;
-    private MutableLiveData<Integer> timeSinceDC;
+    private MutableLiveData<Long> timeLastDC;
     public static LocationStatus singleton(Activity activity) {
         if (instance == null) {
             instance = new LocationStatus(activity);
@@ -28,32 +28,38 @@ public class LocationStatus {
     }
     public LocationStatus(Activity activity){
         this.currentStatus = new MutableLiveData<>();
-        this.timeSinceDC = new MutableLiveData<>();
+        this.timeLastDC = new MutableLiveData<>();
         this.locationManager = (LocationManager) activity.getSystemService(Context.LOCATION_SERVICE);
         executor = Executors.newScheduledThreadPool(1);
     }
 
-    public LiveData<Boolean> checkLocationStatus() {
+    public void registerLocationStatus() {
+        this.timeLastDC.postValue(System.currentTimeMillis()/1000); //initial startup time
         executor.scheduleAtFixedRate(() -> {
-            if(!locationManager.isLocationEnabled()){
-                currentStatus.setValue(false);//is it bc its postvalue vs setvalue?
-                //add to timer
-                //timeSinceDC.setValue(timeSinceDC.getValue() + 5);
-            } else{
-                currentStatus.setValue(locationManager.isProviderEnabled(this.locationManager.GPS_PROVIDER));
+                this.currentStatus.postValue(this.locationManager.
+                        isProviderEnabled(this.locationManager.GPS_PROVIDER));
+                //this.currentStatus.postValue(false);//test if it is dc, since it always return true right now
                 if(locationManager.isProviderEnabled(this.locationManager.GPS_PROVIDER)){ //reset timer
-                    //timeSinceDC.setValue(0);
-                } else{//add to timer
-                    //timeSinceDC.setValue(timeSinceDC.getValue() + 5);
+                    this.timeLastDC.postValue(System.currentTimeMillis()/1000);
+
+                    //if(timeLastDC.getValue() != null)
+                    //    this.timeLastDC.postValue(timeLastDC.getValue());//testing
+                } else if(timeLastDC.getValue() != null){
+                    this.timeLastDC.postValue(timeLastDC.getValue());//this somehow tricks AS into thinking it was updated hehe
                 }
-            }
-            Log.i("L_STATUS", currentStatus.toString());
-            }, 0, 5000, TimeUnit.MILLISECONDS);
-        return currentStatus;
+            if(currentStatus.getValue() != null)
+                Log.d("L_STATUS", Boolean.toString(currentStatus.getValue()));
+            if(timeLastDC.getValue() != null)
+                Log.d("L_STATUS", "last connect "+ timeLastDC.getValue()
+                        + " curr " + System.currentTimeMillis()/1000);
+            }, 0, 5, TimeUnit.SECONDS);
+    }
+    public LiveData<Boolean> getLocationStatus() {
+        return this.currentStatus;
     }
 
-    public LiveData<Integer> getDCtime(){
-        return this.timeSinceDC;
+    public LiveData<Long> getDCtime(){
+        return this.timeLastDC;
     }
 
     /*
