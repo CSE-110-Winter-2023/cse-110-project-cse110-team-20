@@ -73,6 +73,10 @@ public class CompassActivity extends AppCompatActivity {
         preferences = getSharedPreferences("main", MODE_PRIVATE);
         int numPeople = preferences.getAll().size() - 1;
 
+        if (numPeople < 1) {
+            numPeople = 1;
+        }
+
         String userUID = preferences.getString("0", "default_if_not_found");
         String[] friendsUID = new String[numPeople - 1];
 
