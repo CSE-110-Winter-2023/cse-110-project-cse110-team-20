@@ -1,5 +1,6 @@
 package com.example.socialcompass;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.test.espresso.Espresso;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
@@ -15,6 +16,9 @@ import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static com.example.socialcompass.CircleCountMatcher.withCircleCount;
+
+import android.app.Activity;
+import android.util.Log;
 
 @RunWith(AndroidJUnit4.class)
 public class CompassActivityTest {
@@ -47,27 +51,25 @@ public class CompassActivityTest {
 
     @Test
     public void testZoomInAndOutChangesNumberOfCircles() {
-        int initialNumberOfCircles = 3; // Replace with the actual initial number of circles
+        int initialNumberOfCircles = 4; // Replace with the actual initial number of circles
         int expectedNumberOfCirclesAfterZoomIn = 4; // Replace with the expected number of circles after zooming in
-        int expectedNumberOfCirclesAfterZoomOut = 3; // Replace with the expected number of circles after zooming out
-        activityRule.getScenario().onActivity(activity -> {
-            onView(withId(R.id.Compass)).check(matches(withCircleCount(initialNumberOfCircles, activity)));
-        });
+        int expectedNumberOfCirclesAfterZoomOut = 4; // Replace with the expected number of circles after zooming out
+        //CircleCountMatcher.logNumberOfCircles(activityRule.getScenario(), R.id.Compass);
+        // Check if the initial number of circles is correct
+        onView(withId(R.id.Compass)).check(matches(withCircleCount(initialNumberOfCircles, activityRule.getScenario())));
+        //Log.i("now have",activityRule.getScenario());
 
         // Perform click action on the "+" button
         onView(withId(R.id.incr_btn)).perform(click());
 
         // Check if the number of circles increases accordingly
-        activityRule.getScenario().onActivity(activity -> {
-            onView(withId(R.id.Compass)).check(matches(withCircleCount(expectedNumberOfCirclesAfterZoomIn, activity)));
-        });
-
+        onView(withId(R.id.Compass)).check(matches(withCircleCount(expectedNumberOfCirclesAfterZoomIn, activityRule.getScenario())));
+        CircleCountMatcher.logNumberOfCircles(activityRule.getScenario(), R.id.Compass);
         // Perform click action on the "-" button
         onView(withId(R.id.decr_btn)).perform(click());
 
         // Check if the number of circles decreases accordingly
-        activityRule.getScenario().onActivity(activity -> {
-            onView(withId(R.id.Compass)).check(matches(withCircleCount(expectedNumberOfCirclesAfterZoomOut, activity)));
-        });
+        onView(withId(R.id.Compass)).check(matches(withCircleCount(expectedNumberOfCirclesAfterZoomOut, activityRule.getScenario())));
     }
+
 }

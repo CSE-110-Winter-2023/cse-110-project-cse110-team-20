@@ -1,23 +1,26 @@
 package com.example.socialcompass;
 
+import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.test.core.app.ActivityScenario;
 
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
 
-import androidx.constraintlayout.widget.ConstraintLayout;
-
 public class CircleCountMatcher extends TypeSafeMatcher<View> {
 
     private final int expectedNumberOfCircles;
-    private Context context;
+    private ActivityScenario<?> scenario;
 
-    private CircleCountMatcher(int expectedNumberOfCircles, Context context) {
+    private CircleCountMatcher(int expectedNumberOfCircles, ActivityScenario<?> scenario) {
         this.expectedNumberOfCircles = expectedNumberOfCircles;
-        this.context = context;
+        this.scenario = scenario;
     }
 
     @Override
@@ -27,8 +30,10 @@ public class CircleCountMatcher extends TypeSafeMatcher<View> {
         }
 
         ConstraintLayout compass = (ConstraintLayout) view;
-        // Replace this line with the appropriate method or property to get the actual number of circles
-        int actualNumberOfCircles = getNumberOfCircles(compass);
+        int actualNumberOfCircles = 0;
+        // Get the context from the view
+        Context context = view.getContext();
+        actualNumberOfCircles = getNumberOfCircles(compass, context);
         return actualNumberOfCircles == expectedNumberOfCircles;
     }
 
@@ -38,18 +43,18 @@ public class CircleCountMatcher extends TypeSafeMatcher<View> {
         description.appendValue(expectedNumberOfCircles);
     }
 
-    public static Matcher<View> withCircleCount(int expectedNumberOfCircles, Context context) {
-        return new CircleCountMatcher(expectedNumberOfCircles, context);
+    public static Matcher<View> withCircleCount(int expectedNumberOfCircles, ActivityScenario<?> scenario) {
+        return new CircleCountMatcher(expectedNumberOfCircles, scenario);
     }
 
-    private int getNumberOfCircles(ConstraintLayout compass) {
+    private static int getNumberOfCircles(ConstraintLayout compass, Context context) {
         int circleCount = 0;
 
         for (int i = 0; i < compass.getChildCount(); i++) {
             View child = compass.getChildAt(i);
             if (child instanceof ImageView) {
                 ImageView imageView = (ImageView) child;
-                if (isCircle(imageView)) {
+                if (isCircle(imageView, context)) {
                     circleCount++;
                 }
             }
@@ -58,8 +63,17 @@ public class CircleCountMatcher extends TypeSafeMatcher<View> {
         return circleCount;
     }
 
-    private boolean isCircle(ImageView imageView) {
+    // Make isCircle a static method
+    private static boolean isCircle(ImageView imageView, Context context) {
         // Check if the ImageView uses the R.drawable.outline_circle drawable
         return imageView.getDrawable().getConstantState() == context.getResources().getDrawable(R.drawable.outline_circle).getConstantState();
     }
+    public static void logNumberOfCircles(ActivityScenario<CompassActivity> scenario, int viewId) {
+        scenario.onActivity(activity -> {
+            ConstraintLayout compass = activity.findViewById(viewId);
+            int numberOfCircles = getNumberOfCircles(compass, activity);
+            Log.d("NumberOfCircles", "Number of circles: " + numberOfCircles);
+        });
+    }
+
 }
