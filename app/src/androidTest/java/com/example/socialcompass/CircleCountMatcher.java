@@ -9,6 +9,8 @@ import android.widget.ImageView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.test.core.app.ActivityScenario;
 
+import com.example.socialcompass.Activities.CompassActivity;
+
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
