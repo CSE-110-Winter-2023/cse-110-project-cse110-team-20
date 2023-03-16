@@ -72,7 +72,7 @@ public class CompassActivity extends AppCompatActivity {
 
         locationService = locationService.singleton(this);
         orientationService = orientationService.singleton(this);
-
+        locationStatus =locationStatus.singleton(this);
 
         preferences = getSharedPreferences("main", MODE_PRIVATE);
         int numPeople = preferences.getAll().size();
@@ -112,19 +112,19 @@ public class CompassActivity extends AppCompatActivity {
         initializeLocationMarkerWidgets();
 
         //TODO: make class that runs a scheduled executor for whether location is enabled
-        locationStatus = new LocationStatus(locationService);
+
         disconnect_time = new MutableLiveData<Integer>();//unsure how to do this, check lab 5 maybe
         locationStatus.checkLocationStatus().observe(this, status->{
-            if(!status){//it is disconnected here
+            if(status){//it is connected here
                 //TODO: add code to change compassactivity and timer's text
-                //add 5 seconds each time its disconnected so match the 5 second ping time?
-                //disconnect_time.setValue(disconnect_time.getValue()+5000);
-                gps_status.setColorFilter(RED);//change the filter of the imageview so its red??
-            } else{//it reconnected, set the timer back to 0
-                //disconnect_time.setValue(0);
-                gps_status.setColorFilter(GREEN);
+                Log.i("L_STATUS", "inside if connected");
+                gps_status.setColorFilter(GREEN);//change the filter of the imageview so its red??
+            } else{//it disconnected, set the disconnect timer to locationstatus get dctime
+                gps_status.setColorFilter(RED);
+                Log.i("L_STATUS", "inside if disconnected");
             }
-            //time_since_disconnect.setText(disconnect_time.getValue());
+            //disconnect_time.setValue(locationStatus.getDCtime());
+            //time_since_disconnect.setText(disconnect_time.getValue()); //tentative time in seconds
         });
         //insert code
 

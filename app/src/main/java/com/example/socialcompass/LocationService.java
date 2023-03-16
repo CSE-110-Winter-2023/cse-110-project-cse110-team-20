@@ -61,14 +61,4 @@ public class LocationService implements LocationListener {
         unregisterLocationListener();
         this.locationValue = mockDataSource;
     }
-
-    /*
-        This method returns boolean checking whether GPS status is connected
-        or not, add this into the same thread that gets location in real time.
-        Probably do it in an if/else statement
-     */
-    public boolean GPS_Enabled(){
-        //get the current provider
-        return locationManager.isProviderEnabled(locationManager.GPS_PROVIDER);
-    }
 }
