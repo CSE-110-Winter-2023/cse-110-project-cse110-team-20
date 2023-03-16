@@ -1,6 +1,7 @@
 package com.example.socialcompass.Utils;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -12,6 +13,8 @@ import com.example.socialcompass.Compass;
 import com.example.socialcompass.Display;
 import com.example.socialcompass.Orientation;
 import com.example.socialcompass.Point;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,11 +28,14 @@ public class CompassMarkers {
 
     private List<Point> friendLocations;
     private Display display;
+    private Map<String, Integer> distanceForDisplay;
+    private Map<String, Float> degreesForDisplay;
     private Point currentLocation;
     private Orientation currentOrientation;
 
     private List<TextView> realFriendLocationMarkers;
     private List<TextView> fakeFriendLocationMarkers;
+    private List<TextView> fakeFriendLocationMarkers1;
 
     public CompassMarkers(List<Point> friendLocations, Point currentLocation, Orientation currentOrientation, ConstraintLayout layout, Context context) {
         this.friendLocations = friendLocations;
@@ -38,14 +44,16 @@ public class CompassMarkers {
 
         realFriendLocationMarkers = new ArrayList<>();
         fakeFriendLocationMarkers = new ArrayList<>();
+        fakeFriendLocationMarkers1 = new ArrayList<>();
 
         display = new Display(currentOrientation, new Compass(currentLocation, friendLocations));
         initializeLocationMarkerWidgets(realFriendLocationMarkers, layout, context,true);
         initializeLocationMarkerWidgets(fakeFriendLocationMarkers, layout, context, false);
+        initializeLocationMarkerWidgets(fakeFriendLocationMarkers1, layout, context, false);
     }
 
     public void update(int zoomLevel) {
-        setupMarkers(zoomLevel);
+        computePositions(zoomLevel);
         updateMarkersForCollision();
     }
 
@@ -62,26 +70,35 @@ public class CompassMarkers {
     }
 
     protected void updateMarkersForCollision() {
-        for (int i = 0; i < realFriendLocationMarkers.size(); i++) {
-            for (int j = i + 1; j < realFriendLocationMarkers.size(); j++) {
+        setupMarkers(fakeFriendLocationMarkers1, fakeFriendLocationMarkers, false);
+        for (int i = 0; i < friendLocations.size(); i++) {
+            for (int j = i + 1; j < friendLocations.size(); j++) {
                 if (detectTextviewCollision(fakeFriendLocationMarkers.get(i), fakeFriendLocationMarkers.get(j))) {
                     if (fakeFriendLocationMarkers.get(i).getWidth() > 100) {
                         if (fakeFriendLocationMarkers.get(i).getLeft() <= fakeFriendLocationMarkers.get(j).getLeft()) {
-                            truncateTextview(realFriendLocationMarkers.get(i), fakeFriendLocationMarkers.get(i));
+                            truncateTextview(fakeFriendLocationMarkers1.get(i), fakeFriendLocationMarkers.get(i));
                         } else {
-                            truncateTextview(realFriendLocationMarkers.get(j), fakeFriendLocationMarkers.get(j));
+                            truncateTextview(fakeFriendLocationMarkers1.get(j), fakeFriendLocationMarkers.get(j));
                         }
-                    } else {
-                        // string already truncated but still collide -> overlap
-                        // adjustTextviewsForOverlap(friendLocationMarkers.get(i), friendLocationMarkers.get(j), 30);
                     }
                 }
             }
         }
 
-        for (int i = 0; i < realFriendLocationMarkers.size(); i++) {
-            if (realFriendLocationMarkers.get(i).getText().toString().isEmpty()) {
-                realFriendLocationMarkers.get(i).setText(fakeFriendLocationMarkers.get(i).getText());
+        for (int i = 0; i < friendLocations.size(); i++) {
+            if (fakeFriendLocationMarkers1.get(i).getText().toString().isEmpty()) {
+                fakeFriendLocationMarkers1.get(i).setText(fakeFriendLocationMarkers.get(i).getText().toString());
+            }
+        }
+
+        setupMarkers(realFriendLocationMarkers, fakeFriendLocationMarkers1, true);
+        for (int i = 0; i < friendLocations.size(); i++) {
+            realFriendLocationMarkers.get(i).setText(fakeFriendLocationMarkers1.get(i).getText().toString());
+            for (int j = i + 1; j < friendLocations.size(); j++) {
+                if (detectTextviewCollision(fakeFriendLocationMarkers1.get(i), fakeFriendLocationMarkers1.get(j))) {
+                    // string already truncated but still collide -> overlap
+                    adjustTextviewsForOverlap(realFriendLocationMarkers.get(i), realFriendLocationMarkers.get(j), 20 + 45 * Math.abs(Math.sin(degreesForDisplay.get(friendLocations.get(i).getLabel()) / 360 * 2 * Math.PI)));
+                }
             }
         }
     }
@@ -115,11 +132,13 @@ public class CompassMarkers {
         }
     }
 
-    private void updateText(TextView tv_real, TextView tv_fake, String label, int size) {
+    private void updateText(TextView tv_real, TextView tv_fake, String label, int size, boolean repeat) {
         tv_real.setTextSize(size);
-        tv_fake.setTextSize(size);
         tv_real.setText("");
-        tv_fake.setText(label);
+        if (!repeat) {
+            tv_fake.setTextSize(size);
+            tv_fake.setText(label);
+        }
     }
 
     private void updateLayout(TextView tv, int radius, float angle) {
@@ -129,23 +148,25 @@ public class CompassMarkers {
         tv.setLayoutParams(layoutParamsReal);
     }
 
-    private void setupMarkers(int zoomLevel) {
+    private void computePositions(int zoomLevel) {
         // Compute updated radius and degrees for each friend marker
         display.update(currentLocation, friendLocations, currentOrientation);
-        Map<String, Float> degreesForDisplay = display.modifyDegreesToLocations();
-        Map<String, Integer> distanceForDisplay = display.modifyDistanceToLocations(CompassBg.MAX_RADIUS, zoomLevel);
+        degreesForDisplay = display.modifyDegreesToLocations();
+        distanceForDisplay = display.modifyDistanceToLocations(CompassBg.MAX_RADIUS, zoomLevel);
+    }
 
+    private void setupMarkers(List<TextView> realMarkers, List<TextView> fakeMarkers, boolean repeat) {
         // Setup real and fake markers for collision detection
         for (int i = 0; i < friendLocations.size(); i++) {
             if (distanceForDisplay.get(friendLocations.get(i).getLabel()) < CompassBg.MAX_RADIUS) {
                 // Not on outer edge
-                updateText(realFriendLocationMarkers.get(i), fakeFriendLocationMarkers.get(i), friendLocations.get(i).getLabel(), DEFAULT_TEXT_SIZE);
+                updateText(realMarkers.get(i), fakeMarkers.get(i), friendLocations.get(i).getLabel(), DEFAULT_TEXT_SIZE, repeat);
             } else {
-                updateText(realFriendLocationMarkers.get(i), fakeFriendLocationMarkers.get(i), POINT_TEXT, POINT_SIZE);
+                updateText(realMarkers.get(i), fakeMarkers.get(i), POINT_TEXT, POINT_SIZE, repeat);
             }
 
-            updateLayout(realFriendLocationMarkers.get(i), distanceForDisplay.get(friendLocations.get(i).getLabel()), degreesForDisplay.get(friendLocations.get(i).getLabel()));
-            updateLayout(fakeFriendLocationMarkers.get(i), distanceForDisplay.get(friendLocations.get(i).getLabel()), degreesForDisplay.get(friendLocations.get(i).getLabel()));
+            updateLayout(realMarkers.get(i), distanceForDisplay.get(friendLocations.get(i).getLabel()), degreesForDisplay.get(friendLocations.get(i).getLabel()));
+            updateLayout(fakeMarkers.get(i), distanceForDisplay.get(friendLocations.get(i).getLabel()), degreesForDisplay.get(friendLocations.get(i).getLabel()));
         }
     }
 
@@ -167,7 +188,7 @@ public class CompassMarkers {
         }
     }
 
-    private void adjustTextviewsForOverlap(TextView tv1, TextView tv2, int adjustMargin) {
+    private void adjustTextviewsForOverlap(TextView tv1, TextView tv2, double adjustMargin) {
         ConstraintLayout.LayoutParams layoutParams1 = (ConstraintLayout.LayoutParams) tv1.getLayoutParams();
         ConstraintLayout.LayoutParams layoutParams2 = (ConstraintLayout.LayoutParams) tv2.getLayoutParams();
 
@@ -175,11 +196,11 @@ public class CompassMarkers {
         //  - decrease radius of textview with smaller radius
         //  - increase radius of textview with larger radius
         if (layoutParams1.circleRadius <= layoutParams2.circleRadius) {
-            layoutParams1.circleRadius = Math.max(0, layoutParams1.circleRadius - adjustMargin);
-            layoutParams2.circleRadius = Math.min(CompassBg.MAX_RADIUS, layoutParams2.circleRadius + adjustMargin);
+            layoutParams1.circleRadius = (int) Math.max(0, layoutParams1.circleRadius - adjustMargin);
+            layoutParams2.circleRadius = (int) Math.min(CompassBg.MAX_RADIUS, layoutParams2.circleRadius + adjustMargin);
         } else {
-            layoutParams1.circleRadius = Math.min(CompassBg.MAX_RADIUS, layoutParams1.circleRadius + adjustMargin);
-            layoutParams2.circleRadius = Math.max(0, layoutParams2.circleRadius - adjustMargin);
+            layoutParams1.circleRadius = (int) Math.min(CompassBg.MAX_RADIUS, layoutParams1.circleRadius + adjustMargin);
+            layoutParams2.circleRadius = (int) Math.max(0, layoutParams2.circleRadius - adjustMargin);
         }
     }
 }

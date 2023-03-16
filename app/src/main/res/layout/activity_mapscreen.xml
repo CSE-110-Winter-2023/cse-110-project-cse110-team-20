@@ -30,17 +30,17 @@
 <!--            app:layout_constraintVertical_bias="0.506"-->
 <!--            app:srcCompat="@drawable/rings4" />-->
 
-        <ImageView
-            android:id="@+id/north_point"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            app:layout_constraintCircle="@+id/Compass"
-            app:layout_constraintCircleAngle="270"
-            app:layout_constraintCircleRadius="100dp"
-            app:srcCompat="@drawable/north_point"
-            tools:ignore="MissingConstraints"
-            tools:layout_editor_absoluteX="380dp"
-            tools:layout_editor_absoluteY="380dp" />
+<!--        <ImageView-->
+<!--            android:id="@+id/north_point"-->
+<!--            android:layout_width="40dp"-->
+<!--            android:layout_height="40dp"-->
+<!--            app:layout_constraintCircle="@+id/Compass"-->
+<!--            app:layout_constraintCircleAngle="270"-->
+<!--            app:layout_constraintCircleRadius="100dp"-->
+<!--            app:srcCompat="@drawable/north_point"-->
+<!--            tools:ignore="MissingConstraints"-->
+<!--            tools:layout_editor_absoluteX="380dp"-->
+<!--            tools:layout_editor_absoluteY="380dp" />-->
 
 <!--        <ImageView-->
 <!--            android:id="@+id/center_point"-->
