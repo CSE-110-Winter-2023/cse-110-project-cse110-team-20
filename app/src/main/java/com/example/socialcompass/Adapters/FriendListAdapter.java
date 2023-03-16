@@ -1,4 +1,4 @@
-package com.example.socialcompass;
+package com.example.socialcompass.Adapters;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +8,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.core.util.Consumer;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.socialcompass.Models.Person;
+import com.example.socialcompass.R;
 
 import java.util.Collections;
 import java.util.List;

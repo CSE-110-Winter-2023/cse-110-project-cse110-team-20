@@ -62,8 +62,6 @@ public class CircleCountMatcher extends TypeSafeMatcher<View> {
 
         return circleCount;
     }
-
-    // Make isCircle a static method
     private static boolean isCircle(ImageView imageView, Context context) {
         // Check if the ImageView uses the R.drawable.outline_circle drawable
         return imageView.getDrawable().getConstantState() == context.getResources().getDrawable(R.drawable.outline_circle).getConstantState();

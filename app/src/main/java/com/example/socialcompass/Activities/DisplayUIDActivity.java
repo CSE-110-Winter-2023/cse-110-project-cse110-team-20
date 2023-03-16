@@ -1,4 +1,4 @@
-package com.example.socialcompass;
+package com.example.socialcompass.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.util.Pair;
@@ -11,6 +11,11 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+
+import com.example.socialcompass.Models.Person;
+import com.example.socialcompass.Models.PersonDatabase;
+import com.example.socialcompass.Models.PersonRepository;
+import com.example.socialcompass.R;
 
 import java.util.UUID;
 

@@ -1,4 +1,4 @@
-package com.example.socialcompass;
+package com.example.socialcompass.Models;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
