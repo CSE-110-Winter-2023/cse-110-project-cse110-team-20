@@ -14,6 +14,8 @@ public class LocationAPI {
 
     private OkHttpClient client;
 
+    private String urlHead = "https://socialcompass.goto.ucsd.edu/location/";
+
     public LocationAPI() {
         this.client = new OkHttpClient();
     }
@@ -25,10 +27,14 @@ public class LocationAPI {
         return instance;
     }
 
+    public void mockUrl(String url) {
+        urlHead = url;
+    }
+
     public void delete(String uid) {
         // URLs cannot contain spaces, so we replace them with %20.
         var request = new Request.Builder()
-                .url("https://socialcompass.goto.ucsd.edu/location/" + uid)
+                .url(urlHead + uid)
                 .method("DELETE", null)
                 .build();
 
@@ -54,7 +60,7 @@ public class LocationAPI {
         RequestBody body = RequestBody.create(json, JSON);
 
         var request = new Request.Builder()
-                .url("https://socialcompass.goto.ucsd.edu/location/" + uid)
+                .url(urlHead + uid)
                 .method("PUT", body)
                 .build();
 
@@ -75,7 +81,7 @@ public class LocationAPI {
     public Person get(String uid) {
         // URLs cannot contain spaces, so we replace them with %20.
         var request = new Request.Builder()
-                .url("https://socialcompass.goto.ucsd.edu/location/" + uid)
+                .url(urlHead + uid)
                 .method("GET", null)
                 .build();
 
