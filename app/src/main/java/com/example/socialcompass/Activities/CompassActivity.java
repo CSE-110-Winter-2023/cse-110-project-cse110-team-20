@@ -154,7 +154,7 @@ public class CompassActivity extends AppCompatActivity {
     }
 
     public void OkbtnClicked(View view) {
-        mockorientation.setOrientation(Float.parseFloat(orientationText.getText().toString()));
+        viewModel.mockUrl(orientationText.getText().toString());
     }
 
     public void onIncrZoomBtnClicked(View view) {
