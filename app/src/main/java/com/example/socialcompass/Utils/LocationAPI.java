@@ -14,7 +14,7 @@ public class LocationAPI {
 
     private OkHttpClient client;
 
-    private String urlHead = "https://socialcompass.goto.ucsd.edu/location/";
+    private String urlHead = "https://socialcompass.goto.ucsd.edu";
 
     public LocationAPI() {
         this.client = new OkHttpClient();
@@ -32,7 +32,7 @@ public class LocationAPI {
     }
 
     private String assembleUrl(String uid) {
-        return urlHead + uid;
+        return urlHead + "/location/" + uid;
     }
 
     public void delete(String uid) {
