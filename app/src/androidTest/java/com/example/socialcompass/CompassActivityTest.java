@@ -25,13 +25,13 @@ public class CompassActivityTest {
 
     @Test
     public void testOrientationEditText() {
-        onView(withId(R.id.editOrientation)).perform(typeText("90"));
+        onView(withId(R.id.editApiUrl)).perform(typeText("90"));
         Espresso.closeSoftKeyboard();
     }
 
     @Test
     public void testOkButtonClick() {
-        onView(withId(R.id.editOrientation)).perform(typeText("90"));
+        onView(withId(R.id.editApiUrl)).perform(typeText("90"));
         Espresso.closeSoftKeyboard();
         onView(withId(R.id.ok_btn)).perform(click());
     }

@@ -1,26 +1,16 @@
 package com.example.socialcompass.Activities;
 
-import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.socialcompass.Compass;
-import com.example.socialcompass.Display;
 import com.example.socialcompass.Models.Person;
 import com.example.socialcompass.Orientation;
 import com.example.socialcompass.Services.LocationService;
@@ -33,7 +23,6 @@ import com.example.socialcompass.ViewModels.FriendListViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class CompassActivity extends AppCompatActivity {
 
@@ -60,7 +49,7 @@ public class CompassActivity extends AppCompatActivity {
 
     Orientation mockorientation;
 
-    private TextView orientationText;
+    private TextView urlText;
 
 
     private CompassBg compassBg;
@@ -146,7 +135,7 @@ public class CompassActivity extends AppCompatActivity {
     }
 
     void wireWidgets() {
-        orientationText = findViewById(R.id.editOrientation);
+        urlText = findViewById(R.id.editApiUrl);
     }
 
     private FriendListViewModel setupViewModel() {
@@ -154,7 +143,7 @@ public class CompassActivity extends AppCompatActivity {
     }
 
     public void OkbtnClicked(View view) {
-        mockorientation.setOrientation(Float.parseFloat(orientationText.getText().toString()));
+        viewModel.mockUrl(urlText.getText().toString());
     }
 
     public void onIncrZoomBtnClicked(View view) {

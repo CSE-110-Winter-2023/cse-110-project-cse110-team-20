@@ -54,4 +54,6 @@ public class FriendListViewModel extends AndroidViewModel {
     public void delete(Person person) {
         repo.deleteLocal(person);
     }
+
+    public void mockUrl(String url) { repo.mockUrl(url); }
 }
