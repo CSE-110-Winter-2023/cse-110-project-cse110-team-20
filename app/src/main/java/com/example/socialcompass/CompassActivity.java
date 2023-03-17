@@ -46,7 +46,7 @@ public class CompassActivity extends AppCompatActivity {
 
     Orientation mockorientation;
 
-    private LocationStatus locationStatus;
+    //private LocationStatus locationStatus;
 
     private TextView redLegendText;
     private TextView yellowLegendText;
@@ -70,7 +70,7 @@ public class CompassActivity extends AppCompatActivity {
 
         locationService = locationService.singleton(this);
         orientationService = orientationService.singleton(this);
-        locationStatus =locationStatus.singleton(this);
+        //locationStatus =locationStatus.singleton(this);
 
         preferences = getSharedPreferences("main", MODE_PRIVATE);
         int numPeople = preferences.getAll().size();
@@ -110,9 +110,10 @@ public class CompassActivity extends AppCompatActivity {
         initializeLocationMarkerWidgets();
 
         //TODO: make class that runs a scheduled executor for whether location is enabled
-        locationStatus.registerLocationStatus();
-        locationStatus.getLocationStatus().observe(this, status->{
-            if(status){//it is connected here
+        //locationService.registerLocationStatus();
+        locationService.getLocationStatus().observe(this, status->{
+            long diff = Math.max((System.currentTimeMillis() / 1000) - locationService.getDCtime().getValue(), 0);
+            if(status || diff<60){//it is connected here
                 //TODO: add code to change compassactivity and timer's text
                 Log.d("L_STATUS", "inside if connected");
                 gps_status.setColorFilter(GREEN);//change the filter of the imageview so its red??
@@ -121,7 +122,7 @@ public class CompassActivity extends AppCompatActivity {
                 Log.d("L_STATUS", "inside if disconnected");
             }
         });
-        locationStatus.getDCtime().observe(this, time_passed->{
+        locationService.getDCtime().observe(this, time_passed->{
             //difference in current time and last time it postvalue
             long diff = Math.max((System.currentTimeMillis() / 1000) - time_passed, 0);
             if(diff >= 60){
