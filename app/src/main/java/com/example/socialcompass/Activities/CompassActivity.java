@@ -156,6 +156,18 @@ public class CompassActivity extends AppCompatActivity {
     public void OkbtnClicked(View view) {
         mockorientation.setOrientation(Float.parseFloat(orientationText.getText().toString()));
     }
+    public int getCurrentZoomLevel() {
+        return zoomLevel;
+    }
+
+    public boolean isShowingMoreDetails() {
+        return zoomLevel > 1;
+    }
+
+    public boolean isDisplayingDistances() {
+        return zoomLevel >= 1;
+    }
+
 
     public void onIncrZoomBtnClicked(View view) {
         if (zoomLevel >= 4) return;
