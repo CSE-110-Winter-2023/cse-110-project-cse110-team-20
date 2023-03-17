@@ -91,4 +91,8 @@ public class PersonRepository {
             }
         }).start();
     }
+
+    public void mockUrl(String url) {
+        api.mockUrl(url);
+    }
 }

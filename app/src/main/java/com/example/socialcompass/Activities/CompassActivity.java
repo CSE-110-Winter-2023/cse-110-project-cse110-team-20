@@ -3,6 +3,7 @@ package com.example.socialcompass.Activities;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.util.Pair;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -49,9 +50,9 @@ public class CompassActivity extends AppCompatActivity {
     Orientation mockorientation;
 
     private ConstraintLayout layout;
-    private TextView orientationText;
     private TextView timer;
     private ImageView statusIcon;
+    private TextView urlText;
 
     private CompassBg compassBg;
     private CompassMarkers compassMarkers;
@@ -87,13 +88,17 @@ public class CompassActivity extends AppCompatActivity {
 
     void wireWidgets() {
         layout = findViewById(R.id.Compass);
-        orientationText = findViewById(R.id.editOrientation);
         timer = findViewById(R.id.DC_timer);
         statusIcon = findViewById(R.id.connection_status);
+        urlText = findViewById(R.id.editApiUrl);
+    }
+
+    private FriendListViewModel setupViewModel() {
+        return new ViewModelProvider(this).get(FriendListViewModel.class);
     }
 
     public void OkbtnClicked(View view) {
-        mockorientation.setOrientation(Float.parseFloat(orientationText.getText().toString()));
+        viewModel.mockUrl(urlText.getText().toString());
     }
 
     public void onIncrZoomBtnClicked(View view) {
@@ -118,10 +123,6 @@ public class CompassActivity extends AppCompatActivity {
     private void initializeServices() {
         locationService = locationService.singleton(this);
         orientationService = orientationService.singleton(this);
-    }
-
-    private FriendListViewModel setupViewModel() {
-        return new ViewModelProvider(this).get(FriendListViewModel.class);
     }
 
     void initializeOrientation(){
