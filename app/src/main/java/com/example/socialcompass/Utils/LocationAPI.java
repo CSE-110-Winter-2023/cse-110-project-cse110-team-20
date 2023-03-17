@@ -31,10 +31,14 @@ public class LocationAPI {
         urlHead = url;
     }
 
+    private String assembleUrl(String uid) {
+        return urlHead + uid;
+    }
+
     public void delete(String uid) {
         // URLs cannot contain spaces, so we replace them with %20.
         var request = new Request.Builder()
-                .url(urlHead + uid)
+                .url(assembleUrl(uid))
                 .method("DELETE", null)
                 .build();
 
@@ -60,7 +64,7 @@ public class LocationAPI {
         RequestBody body = RequestBody.create(json, JSON);
 
         var request = new Request.Builder()
-                .url(urlHead + uid)
+                .url(assembleUrl(uid))
                 .method("PUT", body)
                 .build();
 
@@ -81,7 +85,7 @@ public class LocationAPI {
     public Person get(String uid) {
         // URLs cannot contain spaces, so we replace them with %20.
         var request = new Request.Builder()
-                .url(urlHead + uid)
+                .url(assembleUrl(uid))
                 .method("GET", null)
                 .build();
 
