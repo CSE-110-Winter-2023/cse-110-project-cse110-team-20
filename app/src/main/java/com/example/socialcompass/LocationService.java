@@ -46,15 +46,15 @@ public class LocationService implements LocationListener {
 
         this.locationManager = (LocationManager) activity.getSystemService(Context.LOCATION_SERVICE);
 
-    // Register sensor listeners
-        this.registerLocationListener();
-
-
         //try this here
         this.currentStatus = new MutableLiveData<>();
         this.timeLastDC = new MutableLiveData<>();
         executor = Executors.newScheduledThreadPool(1);
-        this.registerLocationStatus();
+    // Register sensor listeners
+        this.registerLocationListener();
+
+
+
     }
 
     private void registerLocationListener() {
@@ -63,6 +63,8 @@ public class LocationService implements LocationListener {
             throw new IllegalStateException("App needs location permission to get latest location");
         }
         this.locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+        String gpss = LocationManager.GPS_PROVIDER;
+        this.registerLocationStatus();
     }
 
     @Override

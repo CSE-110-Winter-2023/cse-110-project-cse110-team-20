@@ -126,9 +126,9 @@ public class CompassActivity extends AppCompatActivity {
             //difference in current time and last time it postvalue
             long diff = Math.max((System.currentTimeMillis() / 1000) - time_passed, 0);
             if(diff >= 60){
-                time_since_disconnect.setText(diff/60 + "m " + diff%60 + "s");
+                time_since_disconnect.setText(diff/60 + "m");
             } else{
-                time_since_disconnect.setText(diff + "s"); //tentative time in seconds
+                time_since_disconnect.setText(""); //tentative time in seconds
             }
         });
         //insert code
